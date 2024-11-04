@@ -5,6 +5,5 @@ project(':zipzip-app-api').projectDir = file('app/zipzip-app-api')
 include 'zipzip-domain-mysql'
 project(':zipzip-domain-mysql').projectDir = file('domain/zipzip-domain-mysql')
 
-
 include 'zipzip-domain-redis'
 project(':zipzip-domain-redis').projectDir = file('domain/zipzip-domain-redis')
