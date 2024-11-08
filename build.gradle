@@ -11,7 +11,6 @@ allprojects {
     java {
         sourceCompatibility = JavaVersion.VERSION_17
     }
-
     repositories {
         mavenCentral()
     }
@@ -31,16 +30,12 @@ subprojects {
         testAnnotationProcessor 'org.projectlombok:lombok'
     }
 
-    // 실행 모듈 bootJar로 패키징
-    tasks.named("bootJar") {
-        mainClass = 'org.ssafy.zipzipapiapp.ZipzipAppApiApplication'
-    }
-
     // 나머지 모듈 jar로 패키징
-    bootJar {
+    tasks.named("bootJar") {
         enabled = false
     }
-    jar {
+
+    tasks.named("jar") {
         enabled = true
     }
 
@@ -53,5 +48,4 @@ bootJar {
 jar {
     enabled = true
 }
-
 
