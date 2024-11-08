@@ -1,0 +1,23 @@
+dependencies {
+	implementation project(':zipzip-exception-common')
+	implementation project(':zipzip-kakao-client')
+	implementation project(':zipzip-mysql-domain')
+	implementation project(':zipzip-redis-domain')
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+	implementation 'com.auth0:java-jwt:4.4.0'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

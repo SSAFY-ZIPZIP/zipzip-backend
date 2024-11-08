@@ -1,0 +1,11 @@
+
+dependencies {
+    // Spring Boot Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Cloud OpenFeign
+//    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
+    // JSON 직렬화/역직렬화를 위한 Jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+}

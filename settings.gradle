@@ -1,9 +1,16 @@
 rootProject.name = 'zipzip'
-include 'zipzip-app-api'
-project(':zipzip-app-api').projectDir = file('app/zipzip-app-api')
+include 'zipzip-api-app'
+project(':zipzip-api-app').projectDir = file('app/zipzip-api-app')
 
-include 'zipzip-domain-mysql'
-project(':zipzip-domain-mysql').projectDir = file('domain/zipzip-domain-mysql')
+include 'zipzip-mysql-domain'
+project(':zipzip-mysql-domain').projectDir = file('domain/zipzip-mysql-domain')
 
-include 'zipzip-domain-redis'
-project(':zipzip-domain-redis').projectDir = file('domain/zipzip-domain-redis')
+include 'zipzip-redis-domain'
+project(':zipzip-redis-domain').projectDir = file('domain/zipzip-redis-domain')
+
+include 'zipzip-kakao-client'
+project(':zipzip-kakao-client').projectDir = file('client/zipzip-kakao-client')
+
+include 'zipzip-exception-common'
+project(':zipzip-exception-common').projectDir = file('common/zipzip-exception-common')
+
