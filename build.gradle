@@ -33,7 +33,7 @@ subprojects {
 
     // 실행 모듈 bootJar로 패키징
     tasks.named("bootJar") {
-        mainClass = 'org.ssafy.zipzipappapi.ZipzipAppApiApplication'
+        mainClass = 'org.ssafy.zipzipapiapp.ZipzipAppApiApplication'
     }
 
     // 나머지 모듈 jar로 패키징
