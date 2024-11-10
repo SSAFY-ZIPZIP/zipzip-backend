@@ -19,7 +19,6 @@ import org.ssafy.zipzipmysqldomain.member.repository.MemberRepository;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class AuthService {
     private final KakaoAuthService kakaoAuthService;
     private final JwtTokenProvider jwtTokenProvider;
