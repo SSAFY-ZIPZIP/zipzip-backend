@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.ssafy.zipzipapiapp.auth.dto.LoginAccessTokenDto;
 import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequestDto;
-import org.ssafy.zipzipapiapp.auth.dto.SocialLoginResponseDto;
+import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
 import org.ssafy.zipzipapiapp.auth.service.AuthService;
 
 @RestController
@@ -24,19 +23,21 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<LoginAccessTokenDto> login(
-            @RequestBody SocialLoginRequestDto requestDto) {
-        SocialLoginResponseDto responseDto = authService.socialLogin(requestDto);
+    public ResponseEntity<TokenResponseDto> login(@RequestBody SocialLoginRequestDto requestDto) {
+        TokenResponseDto responseDto = authService.socialLogin(requestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new LoginAccessTokenDto(responseDto.accessToken(), responseDto.refreshToken()));
+                .body(new TokenResponseDto(responseDto.accessToken(), responseDto.refreshToken()));
     }
 
     @GetMapping("/reissue")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<LoginAccessTokenDto> reissueToken(HttpServletRequest request) {
-        String accessToken = (String) request.getAttribute("newAccessToken");
-        return ResponseEntity.status(HttpStatus.CREATED).body(new LoginAccessTokenDto(accessToken, null));
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<TokenResponseDto> reissueToken(HttpServletRequest request) {
+        String refreshToken = (String) request.getAttribute("refreshToken");
+        TokenResponseDto responseDto = authService.reissue(refreshToken);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new TokenResponseDto(responseDto.accessToken(), responseDto.refreshToken()));
     }
 
     @PostMapping("/logout")
@@ -44,6 +45,7 @@ public class AuthController {
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String refreshToken = (String) request.getAttribute("refreshToken");
         authService.logout(refreshToken);
+
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
