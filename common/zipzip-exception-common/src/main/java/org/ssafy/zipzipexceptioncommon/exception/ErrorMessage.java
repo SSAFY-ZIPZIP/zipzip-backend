@@ -18,11 +18,17 @@ public enum ErrorMessage {
     ERR_UNAUTORIZED,
     ERR_REFRESH_TOKEN_EXPIRED,
     ERR_ACCESS_TOKEN_EXPIRED,
+    ERR_INVALID_TOKEN,
+    ERR_EMPTY_TOKEN,
 
     /**
      * 404 NOT_FOUND
      */
     ERR_NOT_FOUND_MEMBER,
-    ;
+
+    /**
+     * 500 INTERNAL_SERVER_ERROR
+     */
+    ERR_INTERNAL_SERVER_ERROR;
 
 }
