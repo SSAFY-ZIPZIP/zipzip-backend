@@ -20,24 +20,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findMemberById(Long id) {
-        return memberJpaRepository.findMemberById(id);
-    }
-
-    @Override
-    public Optional<Member> findMemberByRefreshToken(String refreshToken) {
-        return memberJpaRepository.findMemberByRefreshToken(refreshToken);
-    }
-
-    @Override
     public Optional<Member> findMemberBySocialId(String socialId) {
         return memberJpaRepository.findMemberBySocialId(socialId);
-    }
-
-    @Override
-    public Member findMemberByIdOrThrow(Long memberId) {
-        return memberJpaRepository.findMemberById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.ERR_NOT_FOUND_MEMBER));
     }
 
     @Override

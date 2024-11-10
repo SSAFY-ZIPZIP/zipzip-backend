@@ -11,8 +11,7 @@ import org.ssafy.zipzipmysqldomain.common.entity.Member;
 public interface MemberJpaRepository extends CrudRepository<Member, Long> {
     Optional<Member> findMemberById(Long id);
 
-    @Query("SELECT m FROM Member m WHERE m.refreshToken = :refreshToken")
-    Optional<Member> findMemberByRefreshToken(@Param("refreshToken") String refreshToken);
+    Optional<Member> findMemberByRefreshToken(String refreshToken);
 
     Optional<Member> findMemberBySocialId(String socialId);
 
