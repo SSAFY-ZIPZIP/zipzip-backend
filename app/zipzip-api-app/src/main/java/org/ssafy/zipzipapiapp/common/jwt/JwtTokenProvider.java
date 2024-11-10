@@ -113,7 +113,7 @@ public class JwtTokenProvider {
             log.error("지원하지 않는 JWT 토큰입니다.");
             return UNSUPPORTED_JWT_TOKEN;
         } catch (IllegalArgumentException exception) {
-            log.error("JWT Claims가 비어있습니다.");
+            log.error("JWT 토큰이 비어있습니다.");
             return EMPTY_JWT;
         }
     }
