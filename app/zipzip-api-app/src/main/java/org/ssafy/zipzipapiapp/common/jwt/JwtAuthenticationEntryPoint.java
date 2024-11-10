@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import org.ssafy.zipzipexceptioncommon.exception.ErrorMessage;
 import org.ssafy.zipzipexceptioncommon.exception.FailResponse;
 
 @Component
@@ -19,15 +20,16 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        setResponse(response, HttpStatus.UNAUTHORIZED, authException.getMessage());
+        sendErrorResponse(response, HttpStatus.UNAUTHORIZED, authException.getMessage());
     }
 
-    public void setResponse(HttpServletResponse response, HttpStatus status, String message) throws IOException {
+    public void sendErrorResponse(HttpServletResponse response, HttpStatus status, Object message) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(status.value());
 
-        FailResponse apiResponse = FailResponse.fail(status.value(), message);
+        String messageContent = message instanceof ErrorMessage ? message.toString() : (String) message;
+        FailResponse apiResponse = FailResponse.fail(status.value(), messageContent);
+
         response.getWriter().println(mapper.writeValueAsString(apiResponse));
     }
-
 }
