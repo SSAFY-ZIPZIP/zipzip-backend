@@ -1,64 +1,80 @@
 package org.ssafy.zipzipapiapp.auth.service;
 
+import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_INTERNAL_SERVER_ERROR;
 import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_MISSING_AUTHORIZATION_CODE;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
+import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.auth.dto.SocialInfoDto;
 import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequestDto;
-import org.ssafy.zipzipapiapp.auth.dto.SocialLoginResponseDto;
+import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
+import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
+import org.ssafy.zipzipexceptioncommon.exception.InternalServerException;
 import org.ssafy.zipzipmysqldomain.common.entity.Member;
 import org.ssafy.zipzipmysqldomain.member.repository.MemberRepository;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AuthService {
     private final KakaoAuthService kakaoAuthService;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
 
+    @Transactional
+    public TokenResponseDto socialLogin(SocialLoginRequestDto requestDto) {
 
-    public SocialLoginResponseDto socialLogin(SocialLoginRequestDto requestDto) {
         if (requestDto.code() == null) {
             throw new BadRequestException(ERR_MISSING_AUTHORIZATION_CODE);
         }
 
         try {
-            SocialInfoDto socialData = kakaoAuthService.getKakaoUserData(requestDto);
-            String refreshToken = jwtTokenProvider.generateRefreshToken();
-            Optional<Member> findMember = memberRepository.findMemberBySocialId(String.valueOf(socialData.id()));
-
-            // 신규 유저 저장
-            if (findMember.isEmpty()) {
-                Member member = Member.builder()
-                        .nickname(socialData.nickname())
-                        .email(socialData.email())
-                        .socialId(String.valueOf(socialData.id()))
-                        .build();
-
-                memberRepository.save(member);
-            }
-
-            // socialId를 통해서 등록된 유저 찾기
-            Member signedMember = memberRepository.findMemberBySocialIdOrThrow(String.valueOf(socialData.id()));
-            System.out.println(signedMember.getSocialId());
-            memberRepository.updateRefreshToken(refreshToken,signedMember.getId());
-            // access token 만들기
-            String accessToken = jwtTokenProvider.generateAccessToken(signedMember.getId());
-
-            return new SocialLoginResponseDto(accessToken, refreshToken);
-
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException();
+            SocialInfoDto socialInfo = kakaoAuthService.getKakaoUserData(requestDto);
+            Member member = findMember(socialInfo);
+            return generateTokens(member);
+        } catch (Exception ex) {
+            log.error("Social login failed: {}", ex.getMessage(), ex);
+            throw new InternalServerException(ERR_INTERNAL_SERVER_ERROR);
         }
     }
 
+    @Transactional
     public void logout(String refreshToken) {
         Member member = memberRepository.findByRefreshTokenOrThrow(refreshToken);
         memberRepository.updateRefreshToken(null, member.getId());
     }
 
+    @Transactional
+    public TokenResponseDto reissue(String refreshToken) {
+        Member member = memberRepository.findByRefreshTokenOrThrow(refreshToken);
+        return generateTokens(member);
+    }
+
+    private Member findMember(SocialInfoDto socialInfo) {
+        String socialId = String.valueOf(socialInfo.id());
+        return memberRepository.findMemberBySocialId(socialId)
+                .orElseGet(() -> signUpMember(socialInfo));
+    }
+
+    private Member signUpMember(SocialInfoDto socialInfo) {
+        Member newMember = Member.builder()
+                .nickname(socialInfo.nickname())
+                .email(socialInfo.email())
+                .socialId(String.valueOf(socialInfo.id()))
+                .build();
+        memberRepository.save(newMember);
+        return memberRepository.findMemberBySocialIdOrThrow(newMember.getSocialId());
+    }
+
+    private TokenResponseDto generateTokens(Member member) {
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken();
+        String newAccessToken = jwtTokenProvider.generateAccessToken(member.getId());
+
+        memberRepository.updateRefreshToken(newRefreshToken, member.getId());
+        return new TokenResponseDto(newAccessToken, newRefreshToken);
+    }
 }
