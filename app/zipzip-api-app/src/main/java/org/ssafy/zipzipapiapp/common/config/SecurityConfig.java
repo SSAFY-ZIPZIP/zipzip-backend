@@ -76,9 +76,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
                 Arrays.asList(
-                        "http://localhost:5173",
-                        "https://ssafysandbox.vercel.app",
-                        "https://sandbox-lake-two.vercel.app"
+                        "http://localhost:5173"
                 ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
         configuration.addAllowedHeader("*");
