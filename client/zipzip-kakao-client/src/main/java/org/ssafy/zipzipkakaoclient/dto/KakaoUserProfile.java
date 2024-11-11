@@ -17,4 +17,5 @@ import lombok.ToString;
 public class KakaoUserProfile {
     private String email;
     private String nickname;
+    private String profileImageUrl;
 }

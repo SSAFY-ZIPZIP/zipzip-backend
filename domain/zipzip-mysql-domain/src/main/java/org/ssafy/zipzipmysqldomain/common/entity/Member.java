@@ -5,10 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -29,18 +28,17 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false, name = "social_id")
     private String socialId;
 
+    @Column
+    private String profileImage;
+
     @Column(name = "refresh_token")
     private String refreshToken;
 
     @Builder
-    public Member(String nickname, String email, String socialId) {
+    public Member(String nickname, String email, String socialId, String profileImage) {
         this.nickname = nickname;
         this.email = email;
         this.socialId = socialId;
+        this.profileImage = profileImage;
     }
-
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
 }
