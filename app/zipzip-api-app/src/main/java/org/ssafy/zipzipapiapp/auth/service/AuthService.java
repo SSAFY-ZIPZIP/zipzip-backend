@@ -64,6 +64,7 @@ public class AuthService {
                 .nickname(socialInfo.nickname())
                 .email(socialInfo.email())
                 .socialId(String.valueOf(socialInfo.id()))
+                .profileImage(socialInfo.profileImage())
                 .build();
         memberRepository.save(newMember);
         return memberRepository.findMemberBySocialIdOrThrow(newMember.getSocialId());
