@@ -32,18 +32,17 @@ public class AuthController {
 
     @GetMapping("/reissue")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<TokenResponseDto> reissueToken(HttpServletRequest request) {
-        String refreshToken = (String) request.getAttribute("refreshToken");
-        TokenResponseDto response = authService.reissue(refreshToken);
+    public ResponseEntity<TokenResponseDto> reissueToken(HttpServletRequest httpServletRequest) {
+        String refreshToken = (String) httpServletRequest.getAttribute("refreshToken");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new TokenResponseDto(response.accessToken(), response.refreshToken()));
+                .body(authService.reissue(refreshToken));
     }
 
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        String refreshToken = (String) request.getAttribute("refreshToken");
+    public ResponseEntity<Void> logout(HttpServletRequest httpServletRequest) {
+        String refreshToken = (String) httpServletRequest.getAttribute("refreshToken");
         authService.logout(refreshToken);
 
         return ResponseEntity.status(HttpStatus.OK).build();
