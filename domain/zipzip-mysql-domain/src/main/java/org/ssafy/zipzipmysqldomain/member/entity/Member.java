@@ -1,4 +1,4 @@
-package org.ssafy.zipzipmysqldomain.common.entity;
+package org.ssafy.zipzipmysqldomain.member.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
 
 @Entity
 @Getter
@@ -29,16 +30,16 @@ public class Member extends BaseTimeEntity {
     private String socialId;
 
     @Column
-    private String profileImage;
+    private String profileImageUrl;
 
     @Column(name = "refresh_token")
     private String refreshToken;
 
     @Builder
-    public Member(String nickname, String email, String socialId, String profileImage) {
+    public Member(String nickname, String email, String socialId, String profileImageUrl) {
         this.nickname = nickname;
         this.email = email;
         this.socialId = socialId;
-        this.profileImage = profileImage;
+        this.profileImageUrl = profileImageUrl;
     }
 }

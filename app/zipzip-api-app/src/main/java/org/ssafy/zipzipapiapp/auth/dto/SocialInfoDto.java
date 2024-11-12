@@ -4,6 +4,6 @@ public record SocialInfoDto(
         Long id,
         String email,
         String nickname,
-        String profileImage
+        String profileImageUrl
 ) {
 }

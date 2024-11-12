@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.ssafy.zipzipexceptioncommon.exception.ErrorMessage;
 import org.ssafy.zipzipexceptioncommon.exception.NotFoundException;
-import org.ssafy.zipzipmysqldomain.common.entity.Member;
+import org.ssafy.zipzipmysqldomain.member.entity.Member;
 
 @Repository
 @RequiredArgsConstructor
