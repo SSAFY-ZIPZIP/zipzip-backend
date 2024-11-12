@@ -41,5 +41,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         memberJpaRepository.updateRefreshToken(refreshToken, id);
     }
 
+    @Override
+    public Optional<Member> findMemberById(Long id) {
+        return memberJpaRepository.findMemberById(id);
+    }
 
 }
