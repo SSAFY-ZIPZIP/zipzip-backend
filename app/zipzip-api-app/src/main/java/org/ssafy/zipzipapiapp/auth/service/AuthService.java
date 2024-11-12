@@ -33,8 +33,8 @@ public class AuthService {
         }
 
         try {
-            SocialInfoDto socialInfo = kakaoAuthService.getKakaoUserData(socialLoginRequest);
-            Member member = findMember(socialInfo);
+            SocialInfoDto socialInfoDto = kakaoAuthService.getKakaoUserData(socialLoginRequest);
+            Member member = findMember(socialInfoDto);
 
             String newRefreshToken = jwtTokenProvider.generateRefreshToken();
             String newAccessToken = jwtTokenProvider.generateAccessToken(member.getId());
@@ -61,18 +61,18 @@ public class AuthService {
         return generateTokens(member);
     }
 
-    private Member findMember(SocialInfoDto socialInfo) {
-        String socialId = String.valueOf(socialInfo.id());
+    private Member findMember(SocialInfoDto socialInfoDto) {
+        String socialId = String.valueOf(socialInfoDto.id());
         return memberRepository.findMemberBySocialId(socialId)
-                .orElseGet(() -> signUpMember(socialInfo));
+                .orElseGet(() -> signUpMember(socialInfoDto));
     }
 
-    private Member signUpMember(SocialInfoDto socialInfo) {
+    private Member signUpMember(SocialInfoDto socialInfoDto) {
         Member newMember = Member.builder()
-                .nickname(socialInfo.nickname())
-                .email(socialInfo.email())
-                .socialId(String.valueOf(socialInfo.id()))
-                .profileImageUrl(socialInfo.profileImageUrl())
+                .nickname(socialInfoDto.nickname())
+                .email(socialInfoDto.email())
+                .socialId(String.valueOf(socialInfoDto.id()))
+                .profileImageUrl(socialInfoDto.profileImageUrl())
                 .build();
         memberRepository.save(newMember);
         return memberRepository.findMemberBySocialIdOrThrow(newMember.getSocialId());

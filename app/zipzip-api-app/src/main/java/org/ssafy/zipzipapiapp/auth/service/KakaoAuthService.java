@@ -28,22 +28,24 @@ public class KakaoAuthService {
     private final KakaoApiClient kakaoApiClient;
 
     public SocialInfoDto getKakaoUserData(SocialLoginRequest socialLoginRequest) {
-        KakaoTokenResponse tokenResponse = kakaoAuthApiClient.getOAuth2Token(
+        KakaoTokenResponse kakaoTokenResponse = kakaoAuthApiClient.getOAuth2Token(
                 GRANT_TYPE,
                 clientId,
                 redirectUri,
                 socialLoginRequest.code()
         );
-        KakaoAccessTokenInfo tokenInfo = kakaoApiClient.getAccessTokenInfo("Bearer " + tokenResponse.getAccessToken());
-        KakaoUserResponse userResponse = kakaoApiClient.getUserInformation("Bearer " + tokenResponse.getAccessToken());
+        KakaoAccessTokenInfo kakaoAccessTokenInfo = kakaoApiClient.getAccessTokenInfo(
+                "Bearer " + kakaoTokenResponse.getAccessToken());
+        KakaoUserResponse kakaoUserResponse = kakaoApiClient.getUserInformation(
+                "Bearer " + kakaoTokenResponse.getAccessToken());
 
-        KakaoUserProfile profile = userResponse.getKakaoAccount().getProfile();
+        KakaoUserProfile kakaoUserProfile = kakaoUserResponse.getKakaoAccount().getProfile();
 
         return new SocialInfoDto(
-                tokenInfo.getId(),
-                profile.getEmail(),
-                profile.getNickname(),
-                profile.getProfileImageUrl());
+                kakaoAccessTokenInfo.getId(),
+                kakaoUserProfile.getEmail(),
+                kakaoUserProfile.getNickname(),
+                kakaoUserProfile.getProfileImageUrl());
     }
 
 }
