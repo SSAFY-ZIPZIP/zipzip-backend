@@ -8,6 +8,7 @@ import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequest;
 import org.ssafy.zipzipkakaoclient.client.KakaoApiClient;
 import org.ssafy.zipzipkakaoclient.client.KakaoAuthApiClient;
 import org.ssafy.zipzipkakaoclient.dto.KakaoAccessTokenInfo;
+import org.ssafy.zipzipkakaoclient.dto.KakaoAccount;
 import org.ssafy.zipzipkakaoclient.dto.KakaoTokenResponse;
 import org.ssafy.zipzipkakaoclient.dto.KakaoUserProfile;
 import org.ssafy.zipzipkakaoclient.dto.KakaoUserResponse;
@@ -39,11 +40,12 @@ public class KakaoAuthService {
         KakaoUserResponse kakaoUserResponse = kakaoApiClient.getUserInformation(
                 "Bearer " + kakaoTokenResponse.getAccessToken());
 
-        KakaoUserProfile kakaoUserProfile = kakaoUserResponse.getKakaoAccount().getProfile();
+        KakaoAccount kakaoAccount = kakaoUserResponse.getKakaoAccount();
+        KakaoUserProfile kakaoUserProfile = kakaoAccount.getProfile();
 
         return new SocialInfoDto(
                 kakaoAccessTokenInfo.getId(),
-                kakaoUserProfile.getEmail(),
+                kakaoAccount.getEmail(),
                 kakaoUserProfile.getNickname(),
                 kakaoUserProfile.getProfileImageUrl());
     }

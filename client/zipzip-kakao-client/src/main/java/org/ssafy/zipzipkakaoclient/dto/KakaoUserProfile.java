@@ -15,7 +15,6 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class KakaoUserProfile {
-    private String email;
     private String nickname;
     private String profileImageUrl;
 }
