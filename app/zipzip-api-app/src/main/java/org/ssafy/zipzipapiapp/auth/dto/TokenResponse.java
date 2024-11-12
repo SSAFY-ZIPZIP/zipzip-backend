@@ -2,7 +2,7 @@ package org.ssafy.zipzipapiapp.auth.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record TokenResponseDto(
+public record TokenResponse(
         @NotNull String accessToken,
         @NotNull String refreshToken
 ) {
