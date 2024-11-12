@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.ssafy.zipzipapiapp.auth.dto.SocialInfoDto;
-import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequestDto;
+import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequest;
 import org.ssafy.zipzipkakaoclient.client.KakaoApiClient;
 import org.ssafy.zipzipkakaoclient.client.KakaoAuthApiClient;
 import org.ssafy.zipzipkakaoclient.dto.KakaoAccessTokenInfo;
@@ -27,12 +27,12 @@ public class KakaoAuthService {
     private final KakaoAuthApiClient kakaoAuthApiClient;
     private final KakaoApiClient kakaoApiClient;
 
-    public SocialInfoDto getKakaoUserData(SocialLoginRequestDto socialLoginRequestDto) {
+    public SocialInfoDto getKakaoUserData(SocialLoginRequest socialLoginRequest) {
         KakaoTokenResponse tokenResponse = kakaoAuthApiClient.getOAuth2Token(
                 GRANT_TYPE,
                 clientId,
                 redirectUri,
-                socialLoginRequestDto.code()
+                socialLoginRequest.code()
         );
         KakaoAccessTokenInfo tokenInfo = kakaoApiClient.getAccessTokenInfo("Bearer " + tokenResponse.getAccessToken());
         KakaoUserResponse userResponse = kakaoApiClient.getUserInformation("Bearer " + tokenResponse.getAccessToken());

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequestDto;
+import org.ssafy.zipzipapiapp.auth.dto.LoginResponse;
+import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequest;
 import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
 import org.ssafy.zipzipapiapp.auth.service.AuthService;
 
@@ -23,11 +24,10 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TokenResponseDto> login(@RequestBody SocialLoginRequestDto request) {
-        TokenResponseDto response = authService.socialLogin(request);
+    public ResponseEntity<LoginResponse> login(@RequestBody SocialLoginRequest socialLoginRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new TokenResponseDto(response.accessToken(), response.refreshToken()));
+                .body(authService.socialLogin(socialLoginRequest));
     }
 
     @GetMapping("/reissue")

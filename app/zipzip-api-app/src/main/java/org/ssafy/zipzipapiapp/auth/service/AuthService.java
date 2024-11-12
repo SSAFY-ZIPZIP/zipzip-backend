@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ssafy.zipzipapiapp.auth.dto.LoginResponse;
 import org.ssafy.zipzipapiapp.auth.dto.SocialInfoDto;
-import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequestDto;
+import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequest;
 import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
@@ -25,16 +26,23 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public TokenResponseDto socialLogin(SocialLoginRequestDto request) {
+    public LoginResponse socialLogin(SocialLoginRequest socialLoginRequest) {
 
-        if (request.code() == null) {
+        if (socialLoginRequest.code() == null) {
             throw new BadRequestException(ERR_MISSING_AUTHORIZATION_CODE);
         }
 
         try {
-            SocialInfoDto socialInfo = kakaoAuthService.getKakaoUserData(request);
+            SocialInfoDto socialInfo = kakaoAuthService.getKakaoUserData(socialLoginRequest);
             Member member = findMember(socialInfo);
-            return generateTokens(member);
+
+            String newRefreshToken = jwtTokenProvider.generateRefreshToken();
+            String newAccessToken = jwtTokenProvider.generateAccessToken(member.getId());
+            memberRepository.updateRefreshToken(newRefreshToken, member.getId());
+
+            return new LoginResponse(newAccessToken, newRefreshToken, member.getId());
+
+
         } catch (Exception ex) {
             log.error("Social login failed: {}", ex.getMessage(), ex);
             throw new InternalServerException(ERR_INTERNAL_SERVER_ERROR);
