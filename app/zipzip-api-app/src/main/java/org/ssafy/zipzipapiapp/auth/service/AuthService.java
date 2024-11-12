@@ -13,7 +13,7 @@ import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
 import org.ssafy.zipzipexceptioncommon.exception.InternalServerException;
-import org.ssafy.zipzipmysqldomain.common.entity.Member;
+import org.ssafy.zipzipmysqldomain.member.entity.Member;
 import org.ssafy.zipzipmysqldomain.member.repository.MemberRepository;
 
 @Slf4j
@@ -64,7 +64,7 @@ public class AuthService {
                 .nickname(socialInfo.nickname())
                 .email(socialInfo.email())
                 .socialId(String.valueOf(socialInfo.id()))
-                .profileImage(socialInfo.profileImage())
+                .profileImageUrl(socialInfo.profileImageUrl())
                 .build();
         memberRepository.save(newMember);
         return memberRepository.findMemberBySocialIdOrThrow(newMember.getSocialId());

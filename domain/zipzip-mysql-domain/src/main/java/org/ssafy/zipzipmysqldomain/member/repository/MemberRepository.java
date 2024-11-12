@@ -1,7 +1,7 @@
 package org.ssafy.zipzipmysqldomain.member.repository;
 
 import java.util.Optional;
-import org.ssafy.zipzipmysqldomain.common.entity.Member;
+import org.ssafy.zipzipmysqldomain.member.entity.Member;
 
 public interface MemberRepository {
 

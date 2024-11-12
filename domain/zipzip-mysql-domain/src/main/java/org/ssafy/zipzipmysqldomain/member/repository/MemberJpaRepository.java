@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.ssafy.zipzipmysqldomain.common.entity.Member;
+import org.ssafy.zipzipmysqldomain.member.entity.Member;
 
 public interface MemberJpaRepository extends CrudRepository<Member, Long> {
     Optional<Member> findMemberById(Long id);
