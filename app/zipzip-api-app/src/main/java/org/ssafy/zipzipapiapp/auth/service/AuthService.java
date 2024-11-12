@@ -25,14 +25,14 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public TokenResponseDto socialLogin(SocialLoginRequestDto requestDto) {
+    public TokenResponseDto socialLogin(SocialLoginRequestDto request) {
 
-        if (requestDto.code() == null) {
+        if (request.code() == null) {
             throw new BadRequestException(ERR_MISSING_AUTHORIZATION_CODE);
         }
 
         try {
-            SocialInfoDto socialInfo = kakaoAuthService.getKakaoUserData(requestDto);
+            SocialInfoDto socialInfo = kakaoAuthService.getKakaoUserData(request);
             Member member = findMember(socialInfo);
             return generateTokens(member);
         } catch (Exception ex) {

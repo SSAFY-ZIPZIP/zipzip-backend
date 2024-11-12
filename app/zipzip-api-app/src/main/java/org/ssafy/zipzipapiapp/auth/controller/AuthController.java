@@ -23,21 +23,21 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TokenResponseDto> login(@RequestBody SocialLoginRequestDto requestDto) {
-        TokenResponseDto responseDto = authService.socialLogin(requestDto);
+    public ResponseEntity<TokenResponseDto> login(@RequestBody SocialLoginRequestDto request) {
+        TokenResponseDto response = authService.socialLogin(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new TokenResponseDto(responseDto.accessToken(), responseDto.refreshToken()));
+                .body(new TokenResponseDto(response.accessToken(), response.refreshToken()));
     }
 
     @GetMapping("/reissue")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TokenResponseDto> reissueToken(HttpServletRequest request) {
         String refreshToken = (String) request.getAttribute("refreshToken");
-        TokenResponseDto responseDto = authService.reissue(refreshToken);
+        TokenResponseDto response = authService.reissue(refreshToken);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new TokenResponseDto(responseDto.accessToken(), responseDto.refreshToken()));
+                .body(new TokenResponseDto(response.accessToken(), response.refreshToken()));
     }
 
     @PostMapping("/logout")
