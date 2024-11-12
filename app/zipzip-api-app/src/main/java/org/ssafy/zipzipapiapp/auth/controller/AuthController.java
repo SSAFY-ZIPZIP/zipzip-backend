@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.auth.dto.LoginResponse;
 import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequest;
-import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
+import org.ssafy.zipzipapiapp.auth.dto.TokenResponse;
 import org.ssafy.zipzipapiapp.auth.service.AuthService;
 
 @RestController
@@ -32,7 +32,7 @@ public class AuthController {
 
     @GetMapping("/reissue")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<TokenResponseDto> reissueToken(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<TokenResponse> reissueToken(HttpServletRequest httpServletRequest) {
         String refreshToken = (String) httpServletRequest.getAttribute("refreshToken");
 
         return ResponseEntity.status(HttpStatus.OK)

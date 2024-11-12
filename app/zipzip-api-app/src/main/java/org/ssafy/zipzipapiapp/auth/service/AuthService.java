@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.auth.dto.LoginResponse;
 import org.ssafy.zipzipapiapp.auth.dto.SocialInfoDto;
 import org.ssafy.zipzipapiapp.auth.dto.SocialLoginRequest;
-import org.ssafy.zipzipapiapp.auth.dto.TokenResponseDto;
+import org.ssafy.zipzipapiapp.auth.dto.TokenResponse;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
 import org.ssafy.zipzipexceptioncommon.exception.InternalServerException;
@@ -36,12 +36,9 @@ public class AuthService {
             SocialInfoDto socialInfoDto = kakaoAuthService.getKakaoUserData(socialLoginRequest);
             Member member = findMember(socialInfoDto);
 
-            String newRefreshToken = jwtTokenProvider.generateRefreshToken();
-            String newAccessToken = jwtTokenProvider.generateAccessToken(member.getId());
-            memberRepository.updateRefreshToken(newRefreshToken, member.getId());
-
-            return new LoginResponse(newAccessToken, newRefreshToken, member.getId());
-
+            TokenResponse tokenResponse = generateTokens(member);
+            return new LoginResponse(tokenResponse.accessToken(), tokenResponse.refreshToken(), member.getId());
+            
 
         } catch (Exception ex) {
             log.error("Social login failed: {}", ex.getMessage(), ex);
@@ -56,7 +53,7 @@ public class AuthService {
     }
 
     @Transactional
-    public TokenResponseDto reissue(String refreshToken) {
+    public TokenResponse reissue(String refreshToken) {
         Member member = memberRepository.findByRefreshTokenOrThrow(refreshToken);
         return generateTokens(member);
     }
@@ -78,11 +75,11 @@ public class AuthService {
         return memberRepository.findMemberBySocialIdOrThrow(newMember.getSocialId());
     }
 
-    private TokenResponseDto generateTokens(Member member) {
+    private TokenResponse generateTokens(Member member) {
         String newRefreshToken = jwtTokenProvider.generateRefreshToken();
         String newAccessToken = jwtTokenProvider.generateAccessToken(member.getId());
 
         memberRepository.updateRefreshToken(newRefreshToken, member.getId());
-        return new TokenResponseDto(newAccessToken, newRefreshToken);
+        return new TokenResponse(newAccessToken, newRefreshToken);
     }
 }
