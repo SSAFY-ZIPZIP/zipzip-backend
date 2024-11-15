@@ -1,4 +1,4 @@
-package org.ssafy.zipzipmysqldomain.member.entity;
+package org.ssafy.zipzipmysqldomain.workspacePropertyDeal.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,32 +14,21 @@ import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity {
+public class WorkspacePropertydeal extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String nickname;
-
-    @Column
-    private String email;
+    @Column(nullable = false)
+    private Long propertyDealId;
 
     @Column(nullable = false)
-    private String socialId;
-
-    @Column
-    private String profileImageUrl;
-
-    @Column
-    private String refreshToken;
+    private Long workspaceId;
 
     @Builder
-    public Member(String nickname, String email, String socialId, String profileImageUrl) {
-        this.nickname = nickname;
-        this.email = email;
-        this.socialId = socialId;
-        this.profileImageUrl = profileImageUrl;
+    public WorkspacePropertydeal(Long propertyDealId, Long workspaceId) {
+        this.propertyDealId = propertyDealId;
+        this.workspaceId = workspaceId;
     }
 }

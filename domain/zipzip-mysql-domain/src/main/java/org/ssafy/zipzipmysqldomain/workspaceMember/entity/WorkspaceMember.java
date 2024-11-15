@@ -1,4 +1,4 @@
-package org.ssafy.zipzipmysqldomain.member.entity;
+package org.ssafy.zipzipmysqldomain.workspaceMember.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,36 +10,30 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
+import org.ssafy.zipzipmysqldomain.workspaceMember.enums.WorkspaceMemberRole;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity {
+public class WorkspaceMember extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String nickname;
-
-    @Column
-    private String email;
+    @Column(nullable = false)
+    private Long memberId;
 
     @Column(nullable = false)
-    private String socialId;
+    private Long workspaceId;
 
-    @Column
-    private String profileImageUrl;
-
-    @Column
-    private String refreshToken;
+    @Column(nullable = false)
+    private WorkspaceMemberRole memberRole;
 
     @Builder
-    public Member(String nickname, String email, String socialId, String profileImageUrl) {
-        this.nickname = nickname;
-        this.email = email;
-        this.socialId = socialId;
-        this.profileImageUrl = profileImageUrl;
+    public WorkspaceMember(Long memberId, Long workspaceId, WorkspaceMemberRole memberRole) {
+        this.memberId = memberId;
+        this.workspaceId = workspaceId;
+        this.memberRole = memberRole;
     }
 }
