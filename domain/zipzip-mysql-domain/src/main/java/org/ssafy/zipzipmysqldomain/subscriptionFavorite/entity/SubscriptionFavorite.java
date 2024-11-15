@@ -1,4 +1,4 @@
-package org.ssafy.zipzipmysqldomain.member.entity;
+package org.ssafy.zipzipmysqldomain.subscriptionFavorite.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,32 +14,21 @@ import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity {
+public class SubscriptionFavorite extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String nickname;
+    private Long memberId;
 
     @Column
-    private String email;
-
-    @Column(nullable = false)
-    private String socialId;
-
-    @Column
-    private String profileImageUrl;
-
-    @Column
-    private String refreshToken;
+    private Long subscriptionId;
 
     @Builder
-    public Member(String nickname, String email, String socialId, String profileImageUrl) {
-        this.nickname = nickname;
-        this.email = email;
-        this.socialId = socialId;
-        this.profileImageUrl = profileImageUrl;
+    public SubscriptionFavorite(Long memberId, Long subscriptionId) {
+        this.memberId = memberId;
+        this.subscriptionId = subscriptionId;
     }
 }
