@@ -1,4 +1,4 @@
-package org.ssafy.zipzipmysqldomain.dongcode.entity;
+package org.ssafy.zipzipmysqldomain.dongCode.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +14,7 @@ import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Dongcode extends BaseTimeEntity {
+public class DongCode extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Dongcode extends BaseTimeEntity {
     private String dongName;
 
     @Builder
-    public Dongcode(String dongCode, String sidoName, String gugunName, String dongName) {
+    public DongCode(String dongCode, String sidoName, String gugunName, String dongName) {
         this.dongCode = dongCode;
         this.sidoName = sidoName;
         this.gugunName = gugunName;

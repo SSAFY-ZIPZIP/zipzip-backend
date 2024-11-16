@@ -25,11 +25,15 @@ public class SubscriptionAlarm extends BaseTimeEntity {
     private Long subscriptionId;
 
     @Column(nullable = false)
+    private Long memberId;
+
+    @Column(nullable = false)
     private SendStatus sendStatus;
 
     @Builder
-    public SubscriptionAlarm(Long subscriptionId, SendStatus sendStatus) {
+    public SubscriptionAlarm(Long subscriptionId, Long memberId, SendStatus sendStatus) {
         this.subscriptionId = subscriptionId;
+        this.memberId = memberId;
         this.sendStatus = sendStatus;
     }
 }

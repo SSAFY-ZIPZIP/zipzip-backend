@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
@@ -21,4 +22,9 @@ public class Workspace extends BaseTimeEntity {
 
     @Column(nullable = false, length = 20)
     private String name;
+
+    @Builder
+    public Workspace(String name) {
+        this.name = name;
+    }
 }

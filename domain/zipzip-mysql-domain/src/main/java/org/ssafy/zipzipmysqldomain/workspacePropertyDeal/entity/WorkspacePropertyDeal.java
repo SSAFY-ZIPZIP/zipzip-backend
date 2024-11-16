@@ -14,7 +14,7 @@ import org.ssafy.zipzipmysqldomain.common.entity.BaseTimeEntity;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WorkspacePropertydeal extends BaseTimeEntity {
+public class WorkspacePropertyDeal extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class WorkspacePropertydeal extends BaseTimeEntity {
     private Long workspaceId;
 
     @Builder
-    public WorkspacePropertydeal(Long propertyDealId, Long workspaceId) {
+    public WorkspacePropertyDeal(Long propertyDealId, Long workspaceId) {
         this.propertyDealId = propertyDealId;
         this.workspaceId = workspaceId;
     }
