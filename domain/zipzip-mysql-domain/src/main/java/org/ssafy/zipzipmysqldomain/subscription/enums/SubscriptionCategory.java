@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public enum SubscriptionCategory {
-    
-    GENEEAL(GENERAL, "일반"),
+
+    ALL(GENERAL, "일반"),
     NEWLYWED(SPECIAL, "신혼부부"),
     MULTI_CHILD(SPECIAL, "다자녀가구"),
     FIRST_TIME(SPECIAL, "생애최초"),

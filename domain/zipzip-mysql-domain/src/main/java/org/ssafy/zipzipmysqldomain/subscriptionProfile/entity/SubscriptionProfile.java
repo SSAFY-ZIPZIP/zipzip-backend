@@ -26,20 +26,20 @@ public class SubscriptionProfile extends BaseTimeEntity {
     private Long memberId;
 
     @Column(nullable = false)
-    private SubscriptionRegion userRegion;
+    private SubscriptionRegion memberRegion;
 
     @Column(nullable = false)
-    private SubscriptionCategory userCategory;
+    private SubscriptionCategory memberCategory;
 
     @Column(nullable = false)
     private Boolean isNotificationSubscription;
 
     @Builder
-    public SubscriptionProfile(Long memberId, SubscriptionRegion userRegion, SubscriptionCategory userCategory,
+    public SubscriptionProfile(Long memberId, SubscriptionRegion memberRegion, SubscriptionCategory memberCategory,
                                Boolean isNotificationSubscription) {
         this.memberId = memberId;
-        this.userRegion = userRegion;
-        this.userCategory = userCategory;
+        this.memberRegion = memberRegion;
+        this.memberCategory = memberCategory;
         this.isNotificationSubscription = isNotificationSubscription;
     }
 }
