@@ -38,10 +38,10 @@ public class Subscription extends BaseTimeEntity {
     @Column(nullable = false)
     private String address;
 
-    @Column
+    @Column(nullable = false, columnDefinition = "int default 0")
     private Integer generalHouseHold;
 
-    @Column
+    @Column(nullable = false, columnDefinition = "int default 0")
     private Integer specialHouseHold;
 
     @Column

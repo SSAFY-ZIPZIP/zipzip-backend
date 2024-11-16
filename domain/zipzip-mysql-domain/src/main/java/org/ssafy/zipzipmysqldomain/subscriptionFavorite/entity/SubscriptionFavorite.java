@@ -20,10 +20,10 @@ public class SubscriptionFavorite extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private Long memberId;
 
-    @Column
+    @Column(nullable = false)
     private Long subscriptionId;
 
     @Builder
