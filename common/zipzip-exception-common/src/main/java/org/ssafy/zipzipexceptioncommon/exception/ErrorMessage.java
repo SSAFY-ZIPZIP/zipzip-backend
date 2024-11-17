@@ -11,6 +11,8 @@ public enum ErrorMessage {
      * 400 Bad Request
      */
     ERR_MISSING_AUTHORIZATION_CODE,
+    ERR_INVALID_SUBSCRIPTION_CATEGORY,
+    ERR_INVALID_SUBSCRIPTION_REGION,
 
     /**
      * 401 UNAUTHORIZED
