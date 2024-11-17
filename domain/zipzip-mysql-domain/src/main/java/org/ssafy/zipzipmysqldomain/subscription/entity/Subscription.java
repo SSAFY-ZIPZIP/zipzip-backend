@@ -2,6 +2,8 @@ package org.ssafy.zipzipmysqldomain.subscription.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,9 +32,11 @@ public class Subscription extends BaseTimeEntity {
     private String aptName;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private SubscriptionCategory category;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private SubscriptionRegion region;
 
     @Column(nullable = false)
