@@ -2,6 +2,8 @@ package org.ssafy.zipzipmysqldomain.workspaceMember.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +30,7 @@ public class WorkspaceMember extends BaseTimeEntity {
     private Long workspaceId;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private WorkspaceMemberRole memberRole;
 
     @Builder

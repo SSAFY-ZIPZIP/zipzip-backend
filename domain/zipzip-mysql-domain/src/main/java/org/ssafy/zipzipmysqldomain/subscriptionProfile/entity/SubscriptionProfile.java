@@ -2,6 +2,8 @@ package org.ssafy.zipzipmysqldomain.subscriptionProfile.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,9 +28,11 @@ public class SubscriptionProfile extends BaseTimeEntity {
     private Long memberId;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private SubscriptionRegion memberRegion;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private SubscriptionCategory memberCategory;
 
     @Column(nullable = false)
