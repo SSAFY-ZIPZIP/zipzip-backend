@@ -1,4 +1,7 @@
 package org.ssafy.zipzipapiapp.subscriptionProfile.dto;
 
-public record PostSubscriptionProfileRequest(String memberCategory, String memberRegion) {
+import jakarta.validation.constraints.NotNull;
+
+public record PostSubscriptionProfileRequest(@NotNull(message = "memberCategory 값이 비어있습니다.") String memberCategory,
+                                             @NotNull(message = "memberRegion 값이 비어있습니다.") String memberRegion) {
 }

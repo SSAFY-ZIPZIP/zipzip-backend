@@ -1,5 +1,6 @@
 package org.ssafy.zipzipapiapp.subscriptionProfile.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,8 @@ public class SubscriptionProfileController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createSubscriptionProfile(
-            @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest, Authentication authentication) {
+            @Valid @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+            Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
         subscriptionProfileService.postSubscriptionProfile(postSubscriptionProfileRequest, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
