@@ -32,6 +32,7 @@ public enum ErrorMessage {
     /**
      * 500 INTERNAL_SERVER_ERROR
      */
-    ERR_INTERNAL_SERVER_ERROR;
+    ERR_INTERNAL_SERVER_ERROR,
+    ERR_INTERNAL_SERVER_SQL_ERROR;
 
 }
