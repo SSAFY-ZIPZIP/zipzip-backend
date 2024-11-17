@@ -1,11 +1,14 @@
 package org.ssafy.zipzipmysqldomain.subscription.enums;
 
+import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_INVALID_SUBSCRIPTION_CATEGORY;
 import static org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionSupplyType.GENERAL;
 import static org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionSupplyType.SPECIAL;
 
+import java.util.Arrays;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,4 +26,11 @@ public enum SubscriptionCategory {
 
     private final SubscriptionSupplyType type;
     private final String description;
+
+    public static SubscriptionCategory findByDescription(String description) {
+        return Arrays.stream(SubscriptionCategory.values())
+                .filter(category -> category.getDescription().equals(description))
+                .findFirst()
+                .orElseThrow(() -> new BadRequestException(ERR_INVALID_SUBSCRIPTION_CATEGORY));
+    }
 }

@@ -1,8 +1,12 @@
 package org.ssafy.zipzipmysqldomain.subscription.enums;
 
+import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_INVALID_SUBSCRIPTION_REGION;
+
+import java.util.Arrays;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.ssafy.zipzipexceptioncommon.exception.BadRequestException;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,4 +35,11 @@ public enum SubscriptionRegion {
     CHUNGBUK("충북");
 
     private final String description;
+
+    public static SubscriptionRegion findByDescription(String description) {
+        return Arrays.stream(SubscriptionRegion.values())
+                .filter(region -> region.description.equals(description))
+                .findFirst()
+                .orElseThrow(() -> new BadRequestException(ERR_INVALID_SUBSCRIPTION_REGION));
+    }
 }
