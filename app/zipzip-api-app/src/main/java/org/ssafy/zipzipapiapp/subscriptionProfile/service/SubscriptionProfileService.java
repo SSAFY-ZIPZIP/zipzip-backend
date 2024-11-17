@@ -1,8 +1,10 @@
 package org.ssafy.zipzipapiapp.subscriptionProfile.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
 import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionCategory;
 import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionRegion;
@@ -24,5 +26,14 @@ public class SubscriptionProfileService {
                 .isNotificationSubscription(false)
                 .build();
         subscriptionProfileRepository.save(newSubscriptionProfile);
+    }
+
+    public Optional<GetSubscriptionProfileResponse> getSubscriptionProfile(Long memberId) {
+        return subscriptionProfileRepository.findByMemberId(memberId)
+                .map(profile -> new GetSubscriptionProfileResponse(
+                        profile.getMemberCategory().getDescription(),
+                        profile.getMemberRegion().getDescription(),
+                        profile.getIsNotificationSubscription()
+                ));
     }
 }

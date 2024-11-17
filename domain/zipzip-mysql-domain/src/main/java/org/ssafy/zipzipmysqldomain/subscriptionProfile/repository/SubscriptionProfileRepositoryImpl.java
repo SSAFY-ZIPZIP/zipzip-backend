@@ -1,5 +1,6 @@
 package org.ssafy.zipzipmysqldomain.subscriptionProfile.repository;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.ssafy.zipzipmysqldomain.subscriptionProfile.entity.SubscriptionProfile;
@@ -12,5 +13,10 @@ public class SubscriptionProfileRepositoryImpl implements SubscriptionProfileRep
     @Override
     public void save(SubscriptionProfile subscriptionProfile) {
         subscriptionProfileJpaRepository.save(subscriptionProfile);
+    }
+
+    @Override
+    public Optional<SubscriptionProfile> findByMemberId(Long memberId) {
+        return subscriptionProfileJpaRepository.findByMemberId(memberId);
     }
 }
