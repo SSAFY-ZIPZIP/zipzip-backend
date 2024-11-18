@@ -1,16 +1,21 @@
 package org.ssafy.zipzipapiapp.subscriptionProfile.controller;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PatchSubscriptionProfileRequest;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
 import org.ssafy.zipzipapiapp.subscriptionProfile.service.SubscriptionProfileService;
 
@@ -21,12 +26,34 @@ public class SubscriptionProfileController {
 
     private final SubscriptionProfileService subscriptionProfileService;
 
-    @PostMapping
+    @PostMapping("/me")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> post(@Valid @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest,
-                                     Authentication authentication) {
+    public ResponseEntity<Void> post(
+            @Valid @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+            Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
         subscriptionProfileService.post(postSubscriptionProfileRequest, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GetSubscriptionProfileResponse> get(Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        Optional<GetSubscriptionProfileResponse> getSubscriptionProfileResponse = subscriptionProfileService.get(
+                memberId);
+        if (getSubscriptionProfileResponse.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(getSubscriptionProfileResponse.get());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<Void> patch(
+            @Valid @RequestBody PatchSubscriptionProfileRequest patchSubscriptionProfileRequest,
+            Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        subscriptionProfileService.patch(patchSubscriptionProfileRequest, memberId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

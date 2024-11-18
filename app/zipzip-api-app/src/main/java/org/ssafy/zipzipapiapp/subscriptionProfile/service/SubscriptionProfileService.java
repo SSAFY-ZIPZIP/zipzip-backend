@@ -1,9 +1,15 @@
 package org.ssafy.zipzipapiapp.subscriptionProfile.service;
 
+import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_INTERNAL_SERVER_SQL_ERROR;
+
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PatchSubscriptionProfileRequest;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
+import org.ssafy.zipzipexceptioncommon.exception.InternalServerException;
 import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionCategory;
 import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionRegion;
 import org.ssafy.zipzipmysqldomain.subscriptionProfile.entity.SubscriptionProfile;
@@ -16,13 +22,39 @@ public class SubscriptionProfileService {
     private final SubscriptionProfileRepository subscriptionProfileRepository;
 
     @Transactional
-    public void post(PostSubscriptionProfileRequest postSubscriptionProfileRequest, Long memberId) {
+    public void post(PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+                     Long memberId) {
         SubscriptionProfile newSubscriptionProfile = SubscriptionProfile.builder()
                 .memberId(memberId)
-                .memberCategory(SubscriptionCategory.findByDescription(postSubscriptionProfileRequest.memberCategory()))
-                .memberRegion(SubscriptionRegion.findByDescription(postSubscriptionProfileRequest.memberRegion()))
+                .memberCategory(
+                        SubscriptionCategory.findByDescription(
+                                postSubscriptionProfileRequest.memberCategory()))
+                .memberRegion(
+                        SubscriptionRegion.findByDescription(postSubscriptionProfileRequest.memberRegion()))
                 .isNotificationSubscription(false)
                 .build();
         subscriptionProfileRepository.save(newSubscriptionProfile);
+    }
+
+    public Optional<GetSubscriptionProfileResponse> get(Long memberId) {
+        return subscriptionProfileRepository.findByMemberId(memberId)
+                .map(profile -> new GetSubscriptionProfileResponse(
+                        profile.getMemberCategory().getDescription(),
+                        profile.getMemberRegion().getDescription(),
+                        profile.getIsNotificationSubscription()
+                ));
+    }
+
+    @Transactional
+    public void patch(PatchSubscriptionProfileRequest patchSubscriptionProfileRequest,
+                      Long memberId) {
+        SubscriptionCategory memberCategory = SubscriptionCategory.findByDescription(
+                patchSubscriptionProfileRequest.memberCategory());
+        SubscriptionRegion memberRegion = SubscriptionRegion.findByDescription(
+                patchSubscriptionProfileRequest.memberRegion());
+        int updateResult = subscriptionProfileRepository.update(memberCategory, memberRegion, memberId);
+        if (updateResult < 1) {
+            throw new InternalServerException(ERR_INTERNAL_SERVER_SQL_ERROR);
+        }
     }
 }
