@@ -10,6 +10,5 @@ public interface SubscriptionProfileRepository {
 
     Optional<SubscriptionProfile> findByMemberId(Long memberId);
 
-    int updateSubscriptionProfile(SubscriptionCategory memberCategory, SubscriptionRegion memberRegion,
-                                  Long memberId);
+    int update(SubscriptionCategory memberCategory, SubscriptionRegion memberRegion, Long memberId);
 }

@@ -52,8 +52,7 @@ public class SubscriptionProfileService {
                 postAndUpdateSubscriptionProfileRequest.memberCategory());
         SubscriptionRegion memberRegion = SubscriptionRegion.findByDescription(
                 postAndUpdateSubscriptionProfileRequest.memberRegion());
-        int updateResult = subscriptionProfileRepository.updateSubscriptionProfile(memberCategory, memberRegion,
-                memberId);
+        int updateResult = subscriptionProfileRepository.update(memberCategory, memberRegion, memberId);
         if (updateResult < 1) {
             throw new InternalServerException(ERR_INTERNAL_SERVER_SQL_ERROR);
         }
