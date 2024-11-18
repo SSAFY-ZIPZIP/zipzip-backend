@@ -25,11 +25,10 @@ public class SubscriptionProfileController {
 
     @PostMapping("/me")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createSubscriptionProfile(
-            @Valid @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest,
-            Authentication authentication) {
+    public ResponseEntity<Void> post(@Valid @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+                                     Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
-        subscriptionProfileService.postSubscriptionProfile(postSubscriptionProfileRequest, memberId);
+        subscriptionProfileService.post(postSubscriptionProfileRequest, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
