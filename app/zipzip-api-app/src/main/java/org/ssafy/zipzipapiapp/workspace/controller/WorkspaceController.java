@@ -17,7 +17,7 @@ import org.ssafy.zipzipapiapp.workspace.service.WorkspaceService;
 @RestController
 @RequestMapping("/v1/workspaces")
 @RequiredArgsConstructor
-public class WorksapceController {
+public class WorkspaceController {
     private final WorkspaceService workspaceService;
 
     @PostMapping("/me")
