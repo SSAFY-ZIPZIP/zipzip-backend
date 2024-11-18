@@ -16,7 +16,7 @@ public class WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMemberRepository workspaceMemberRepository;
 
-    public void add(PostWorkspaceRequest postWorkspaceRequest, Long memberId) {
+    public void post(PostWorkspaceRequest postWorkspaceRequest, Long memberId) {
 
         Workspace workspace = Workspace.builder()
                 .name(postWorkspaceRequest.workspaceName())
