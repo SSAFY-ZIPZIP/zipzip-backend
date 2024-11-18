@@ -2,6 +2,7 @@ package org.ssafy.zipzipapiapp.workspace.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 import org.ssafy.zipzipmysqldomain.workspace.repository.WorkspaceRepository;
@@ -16,6 +17,7 @@ public class WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMemberRepository workspaceMemberRepository;
 
+    @Transactional
     public void post(PostWorkspaceRequest postWorkspaceRequest, Long memberId) {
 
         Workspace workspace = Workspace.builder()
