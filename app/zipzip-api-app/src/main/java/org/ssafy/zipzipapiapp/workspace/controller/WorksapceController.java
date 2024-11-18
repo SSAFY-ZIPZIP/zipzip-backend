@@ -22,9 +22,9 @@ public class WorksapceController {
 
     @PostMapping("/me")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> add(@RequestBody @Valid PostWorkspaceRequest postWorkspaceRequest,
-                                    Authentication authentication) {
-        workspaceService.add(postWorkspaceRequest, MemberUtil.getUserId(authentication));
+    public ResponseEntity<Void> post(@RequestBody @Valid PostWorkspaceRequest postWorkspaceRequest,
+                                     Authentication authentication) {
+        workspaceService.post(postWorkspaceRequest, MemberUtil.getUserId(authentication));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .build();
