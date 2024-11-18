@@ -14,4 +14,9 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
     public Workspace save(Workspace workspace) {
         return workspaceJpaRepository.save(workspace);
     }
+
+    @Override
+    public void update(String workspaceNsme, Long workspaceId) {
+        workspaceJpaRepository.update(workspaceNsme, workspaceId);
+    }
 }
