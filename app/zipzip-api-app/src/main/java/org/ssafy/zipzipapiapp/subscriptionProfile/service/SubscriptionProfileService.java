@@ -28,7 +28,7 @@ public class SubscriptionProfileService {
         subscriptionProfileRepository.save(newSubscriptionProfile);
     }
 
-    public Optional<GetSubscriptionProfileResponse> getSubscriptionProfile(Long memberId) {
+    public Optional<GetSubscriptionProfileResponse> get(Long memberId) {
         return subscriptionProfileRepository.findByMemberId(memberId)
                 .map(profile -> new GetSubscriptionProfileResponse(
                         profile.getMemberCategory().getDescription(),

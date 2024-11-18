@@ -34,9 +34,9 @@ public class SubscriptionProfileController {
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GetSubscriptionProfileResponse> getSubscriptionProfile(Authentication authentication) {
+    public ResponseEntity<GetSubscriptionProfileResponse> get(Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
-        return subscriptionProfileService.getSubscriptionProfile(memberId)
+        return subscriptionProfileService.get(memberId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.noContent().build());
     }
