@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
-import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostAndUpdateSubscriptionProfileRequest;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PatchSubscriptionProfileRequest;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
 import org.ssafy.zipzipexceptioncommon.exception.InternalServerException;
 import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionCategory;
 import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionRegion;
@@ -21,21 +22,21 @@ public class SubscriptionProfileService {
     private final SubscriptionProfileRepository subscriptionProfileRepository;
 
     @Transactional
-    public void postSubscriptionProfile(PostAndUpdateSubscriptionProfileRequest postAndUpdateSubscriptionProfileRequest,
-                                        Long memberId) {
+    public void post(PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+                     Long memberId) {
         SubscriptionProfile newSubscriptionProfile = SubscriptionProfile.builder()
                 .memberId(memberId)
                 .memberCategory(
                         SubscriptionCategory.findByDescription(
-                                postAndUpdateSubscriptionProfileRequest.memberCategory()))
+                                postSubscriptionProfileRequest.memberCategory()))
                 .memberRegion(
-                        SubscriptionRegion.findByDescription(postAndUpdateSubscriptionProfileRequest.memberRegion()))
+                        SubscriptionRegion.findByDescription(postSubscriptionProfileRequest.memberRegion()))
                 .isNotificationSubscription(false)
                 .build();
         subscriptionProfileRepository.save(newSubscriptionProfile);
     }
 
-    public Optional<GetSubscriptionProfileResponse> getSubscriptionProfile(Long memberId) {
+    public Optional<GetSubscriptionProfileResponse> get(Long memberId) {
         return subscriptionProfileRepository.findByMemberId(memberId)
                 .map(profile -> new GetSubscriptionProfileResponse(
                         profile.getMemberCategory().getDescription(),
@@ -45,13 +46,12 @@ public class SubscriptionProfileService {
     }
 
     @Transactional
-    public void updateSubscriptionProfile(
-            PostAndUpdateSubscriptionProfileRequest postAndUpdateSubscriptionProfileRequest,
-            Long memberId) {
+    public void patch(PatchSubscriptionProfileRequest patchSubscriptionProfileRequest,
+                      Long memberId) {
         SubscriptionCategory memberCategory = SubscriptionCategory.findByDescription(
-                postAndUpdateSubscriptionProfileRequest.memberCategory());
+                patchSubscriptionProfileRequest.memberCategory());
         SubscriptionRegion memberRegion = SubscriptionRegion.findByDescription(
-                postAndUpdateSubscriptionProfileRequest.memberRegion());
+                patchSubscriptionProfileRequest.memberRegion());
         int updateResult = subscriptionProfileRepository.update(memberCategory, memberRegion, memberId);
         if (updateResult < 1) {
             throw new InternalServerException(ERR_INTERNAL_SERVER_SQL_ERROR);
