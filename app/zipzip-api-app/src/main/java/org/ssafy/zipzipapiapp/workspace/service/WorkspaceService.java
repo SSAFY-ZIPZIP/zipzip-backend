@@ -40,26 +40,13 @@ public class WorkspaceService {
 
     @Transactional
     public void patch(PatchWorkspaceRequest patchWorkspaceRequest, Long workspaceId) {
-        /*
-        workspace의 member를 수정하는 것
-
-        workspace의 이름을 수정하는 것
-        - workspace 테이블 변경
-
-        workspace-member 테이블 변경
-        - 1. 현재 workspace id 전체 삭제(자신 빼고)
-        - 2. 현재 workspace id - member id 만들어서 전체 추가
-         */
-
         List<Long> memberIdList = patchWorkspaceRequest.memberIdList();
         String workspaceName = patchWorkspaceRequest.workspaceName();
 
         workspaceRepository.update(workspaceName, workspaceId);
 
-        // 2. workspceMemebr 추가하기
         workspaceMemberRepository.deleteAllByWorkspaceIdExceptOwner(workspaceId);
 
-        // 2-1. workspaceMember 추가하기
         List<WorkspaceMember> workspaceMemberList = new ArrayList<>();
         for (Long memberId : memberIdList) {
             workspaceMemberList.add(WorkspaceMember.builder()
