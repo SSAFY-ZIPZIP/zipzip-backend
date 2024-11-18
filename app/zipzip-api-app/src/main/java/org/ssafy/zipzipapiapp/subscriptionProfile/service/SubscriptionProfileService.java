@@ -16,7 +16,7 @@ public class SubscriptionProfileService {
     private final SubscriptionProfileRepository subscriptionProfileRepository;
 
     @Transactional
-    public void postSubscriptionProfile(PostSubscriptionProfileRequest postSubscriptionProfileRequest, Long memberId) {
+    public void post(PostSubscriptionProfileRequest postSubscriptionProfileRequest, Long memberId) {
         SubscriptionProfile newSubscriptionProfile = SubscriptionProfile.builder()
                 .memberId(memberId)
                 .memberCategory(SubscriptionCategory.findByDescription(postSubscriptionProfileRequest.memberCategory()))
