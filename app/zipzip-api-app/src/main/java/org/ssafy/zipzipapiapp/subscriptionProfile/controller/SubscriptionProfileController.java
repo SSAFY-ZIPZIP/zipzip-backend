@@ -1,6 +1,7 @@
 package org.ssafy.zipzipapiapp.subscriptionProfile.controller;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +40,12 @@ public class SubscriptionProfileController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GetSubscriptionProfileResponse> get(Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
-        return subscriptionProfileService.get(memberId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.noContent().build());
+        Optional<GetSubscriptionProfileResponse> getSubscriptionProfileResponse = subscriptionProfileService.get(
+                memberId);
+        if (getSubscriptionProfileResponse.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(getSubscriptionProfileResponse.get());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/me")
