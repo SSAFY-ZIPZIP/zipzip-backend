@@ -16,7 +16,7 @@ public interface SubscriptionProfileJpaRepository extends CrudRepository<Subscri
     @Modifying
     @Transactional
     @Query("UPDATE SubscriptionProfile s SET s.memberCategory = :memberCategory, s.memberRegion = :memberRegion WHERE s.memberId = :memberId")
-    int updateSubscriptionProfile(@Param("memberCategory") SubscriptionCategory memberCategory,
-                                  @Param("memberRegion") SubscriptionRegion memberRegion,
-                                  @Param("memberId") Long memberId);
+    int update(@Param("memberCategory") SubscriptionCategory memberCategory,
+               @Param("memberRegion") SubscriptionRegion memberRegion,
+               @Param("memberId") Long memberId);
 }

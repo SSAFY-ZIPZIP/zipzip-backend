@@ -23,8 +23,7 @@ public class SubscriptionProfileRepositoryImpl implements SubscriptionProfileRep
     }
 
     @Override
-    public int updateSubscriptionProfile(SubscriptionCategory memberCategory, SubscriptionRegion memberRegion,
-                                         Long memberId) {
-        return subscriptionProfileJpaRepository.updateSubscriptionProfile(memberCategory, memberRegion, memberId);
+    public int update(SubscriptionCategory memberCategory, SubscriptionRegion memberRegion, Long memberId) {
+        return subscriptionProfileJpaRepository.update(memberCategory, memberRegion, memberId);
     }
 }
