@@ -28,7 +28,7 @@ public class WorkspaceController {
 
     @PostMapping("/me")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> post(@RequestBody @Valid PostWorkspaceRequest postWorkspaceRequest,
+    public ResponseEntity<Void> post(@Valid @RequestBody PostWorkspaceRequest postWorkspaceRequest,
                                      Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
         workspaceService.post(postWorkspaceRequest, memberId);

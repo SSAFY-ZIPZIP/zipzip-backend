@@ -15,17 +15,19 @@ public class MemberSerivce {
     private final MemberRepository memberRepository;
 
     public GetMemberProfileResponse getMemberProfile(Long memberId) {
-        Member findMember = memberRepository.findMemberByIdOrThrow(memberId);
+        Member findMember = findByIdOrThrow(memberId);
         return new GetMemberProfileResponse(findMember.getEmail(), findMember.getNickname(),
                 findMember.getProfileImageUrl());
     }
 
-    public Long findMemberIdByEmail(String email) {
+    public Long findMemberIdByEmailOrThrow(String email) {
         return memberRepository.findMemberIdByEmail(email)
                 .orElseThrow(() -> new NotFoundException(ERR_NOT_FOUND_MEMBER));
     }
 
-    public Member findById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(ERR_NOT_FOUND_MEMBER));
+    public Member findByIdOrThrow(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException(ERR_NOT_FOUND_MEMBER));
     }
+
 }
