@@ -37,9 +37,10 @@ public class WorkspaceController {
     @PatchMapping("/me/{workspaceId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> patch(@PathVariable("workspaceId") Long workspaceId,
-                                      @Valid @RequestBody PatchWorkspaceRequest patchWorkspaceRequest) {
-
-        workspaceService.patch(patchWorkspaceRequest, workspaceId);
+                                      @Valid @RequestBody PatchWorkspaceRequest patchWorkspaceRequest,
+                                      Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        workspaceService.patch(patchWorkspaceRequest, workspaceId, memberId);
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }
