@@ -43,7 +43,9 @@ public class SecurityConfig {
     private static final String[] AUTH_WHITELIST = {
             "/v1/oauth/**",
             "/actuator/**",
-            "/health"
+            "/health",
+            "/v1/workspaces/accept-invite",
+            "/v1/workspaces/accept-invite/**" // 두 경로 모두 허용
     };
 
     @Bean
@@ -76,7 +78,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
                 Arrays.asList(
-                        "http://localhost:5173"
+                        "http://localhost:5173",
+                        "https://mail.naver.com"
                 ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
         configuration.addAllowedHeader("*");

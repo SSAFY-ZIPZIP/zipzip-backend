@@ -4,4 +4,6 @@ import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 
 public interface WorkspaceRepository {
     Workspace save(Workspace workspace);
+
+    Workspace findByIdOrThrow(Long workspaceId);
 }

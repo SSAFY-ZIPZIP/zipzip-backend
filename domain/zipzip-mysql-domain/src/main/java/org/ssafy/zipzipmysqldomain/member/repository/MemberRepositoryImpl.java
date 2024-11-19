@@ -47,4 +47,14 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.ERR_NOT_FOUND_MEMBER));
     }
 
+    @Override
+    public Optional<Long> findMemberIdByEmail(String email) {
+        return memberJpaRepository.findMemberIdByEmail(email);
+    }
+
+    @Override
+    public Optional<Member> findById(Long id) {
+        return memberJpaRepository.findById(id);
+    }
+
 }

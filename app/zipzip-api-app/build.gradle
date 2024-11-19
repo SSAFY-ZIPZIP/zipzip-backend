@@ -27,5 +27,8 @@ dependencies {
     // transactional
     implementation 'org.springframework:spring-tx'
 
+    // email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
