@@ -18,6 +18,11 @@ public class WorkspaceMemberRepositoryImpl implements WorkspaceMemberRepository 
     }
 
     @Override
+    public void deleteAllByWorkspaceId(Long workspaceId) {
+        workspaceMemberJpaRepository.deleteAllByWorkspaceId(workspaceId);
+    }
+
+    @Override
     public void saveAll(List<WorkspaceMember> workspaceMemberList) {
         workspaceMemberJpaRepository.saveAll(workspaceMemberList);
     }
