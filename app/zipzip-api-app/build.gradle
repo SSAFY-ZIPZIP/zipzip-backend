@@ -27,5 +27,8 @@ dependencies {
     // transactional
     implementation 'org.springframework:spring-tx'
 
+    // Pageable
+    implementation 'org.springframework.data:spring-data-commons'
+
 }
 
