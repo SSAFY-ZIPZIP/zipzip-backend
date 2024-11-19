@@ -32,6 +32,13 @@ public class WorkspaceService {
     }
 
     @Transactional
+    public void delete(Long workspaceId) {
+        workspaceRepository.delete(workspaceId);
+        workspaceMemberService.deleteAllByWorkspaceId(workspaceId);
+
+    }
+
+    @Transactional
     public void patch(PatchWorkspaceRequest patchWorkspaceRequest, Long workspaceId, Long memberId) {
         List<Long> memberIdList = patchWorkspaceRequest.memberIdList().stream()
                 .filter(id -> !id.equals(memberId))

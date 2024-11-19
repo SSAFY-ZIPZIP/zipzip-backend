@@ -8,6 +8,8 @@ import org.ssafy.zipzipmysqldomain.workspaceMember.entity.WorkspaceMember;
 
 public interface WorkspaceMemberJpaRepository extends CrudRepository<WorkspaceMember, Long> {
 
+    void deleteAllByWorkspaceId(Long workspaceId);
+
     @Modifying
     @Query("DELETE FROM WorkspaceMember wm WHERE wm.workspaceId = :workspaceId AND wm.memberRole != 'OWNER'")
     void deleteAllByWorkspaceIdExceptOwner(@Param("workspaceId") Long workspaceId);

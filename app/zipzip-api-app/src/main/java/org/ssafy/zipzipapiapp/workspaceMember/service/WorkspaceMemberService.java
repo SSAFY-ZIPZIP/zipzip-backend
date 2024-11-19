@@ -38,4 +38,8 @@ public class WorkspaceMemberService {
     public void deleteAllByWorkspaceIdExceptOwner(Long workspaceId) {
         workspaceMemberRepository.deleteAllByWorkspaceIdExceptOwner(workspaceId);
     }
+
+    public void deleteAllByWorkspaceId(Long workspaceId) {
+        workspaceMemberRepository.deleteAllByWorkspaceId(workspaceId);
+    }
 }
