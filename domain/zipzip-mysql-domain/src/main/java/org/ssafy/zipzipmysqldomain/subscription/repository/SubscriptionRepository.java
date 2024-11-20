@@ -5,5 +5,5 @@ import org.springframework.data.domain.Pageable;
 import org.ssafy.zipzipmysqldomain.subscription.dto.MySubscriptionDto;
 
 public interface SubscriptionRepository {
-    Page<MySubscriptionDto> getMyList(Pageable pageable, Long memberId);
+    Page<MySubscriptionDto> findMyList(Pageable pageable, Long memberId);
 }
