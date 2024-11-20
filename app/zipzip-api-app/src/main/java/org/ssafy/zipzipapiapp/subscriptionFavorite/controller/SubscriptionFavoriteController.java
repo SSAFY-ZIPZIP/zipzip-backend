@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,5 +26,13 @@ public class SubscriptionFavoriteController {
         Long memberId = MemberUtil.getUserId(authentication);
         subscriptionFavoriteService.post(memberId, subscriptionId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("{subscriptionId}/me/favorite")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Void> delete(@PathVariable Long subscriptionId, Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        subscriptionFavoriteService.delete(memberId, subscriptionId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
