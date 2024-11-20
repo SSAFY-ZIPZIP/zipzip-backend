@@ -31,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String REISSUE_API_URL = "/v1/oauth/reissue";
     private static final String LOGOUT_API_URL = "/v1/oauth/logout";
     private static final String LOGIN_API_URL = "/v1/oauth/login";
+    private static final String WORKSPACE_ACCEPT_INVITE_API_URL = "/v1/workspaces/accept-invite";
 
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -39,8 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        // 로그인의 경우, accessToken으로 검증할 필요 없음
-        if (isLoginRequest(request)) {
+        if (isNotRequiredAuthenticationRequest(request)) {
             chain.doFilter(request, response);
             return;
         }
@@ -57,9 +57,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private boolean isLoginRequest(HttpServletRequest request) {
+    private boolean isNotRequiredAuthenticationRequest(HttpServletRequest request) {
         String requestUri = request.getRequestURI();
-        return LOGIN_API_URL.equals(requestUri);
+        return LOGIN_API_URL.equals(requestUri) ||
+                WORKSPACE_ACCEPT_INVITE_API_URL.equals(requestUri)  // 정확히 경로 일치
+                || requestUri.startsWith(WORKSPACE_ACCEPT_INVITE_API_URL + "/");
     }
 
     private boolean isTokenReissueOrLogoutRequest(HttpServletRequest request) {

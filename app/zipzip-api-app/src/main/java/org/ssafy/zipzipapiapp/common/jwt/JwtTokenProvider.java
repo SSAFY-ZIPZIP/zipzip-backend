@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.ssafy.zipzipapiapp.workspace.dto.WorkspaceIdAndEmailDto;
 import org.ssafy.zipzipmysqldomain.member.entity.Member;
 import org.ssafy.zipzipmysqldomain.member.repository.MemberRepository;
 
@@ -126,5 +127,25 @@ public class JwtTokenProvider {
     public Long validateMemberRefreshToken(String refreshToken) {
         Member member = memberRepository.findByRefreshTokenOrThrow(refreshToken);
         return member.getId();
+    }
+
+    // Email 관련 메서드
+    public String generateSendInviteToken(Long workspaceId, String email) {
+        return Jwts.builder()
+                .setSubject(workspaceId + ":" + email)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))  // 1일 유효
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public WorkspaceIdAndEmailDto resolveInviteToken(String token) {
+        // JWT 토큰을 디코딩하여 workspaceId와 email을 반환
+        String subject = Jwts.parser()
+                .setSigningKey(getSignKey()) // *이게 맞는지 봐야함
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+        String[] parts = subject.split(":");
+        return new WorkspaceIdAndEmailDto(Long.valueOf(parts[0]), parts[1]);
     }
 }

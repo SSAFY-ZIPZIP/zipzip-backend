@@ -20,6 +20,7 @@ public class WorkspaceMemberService {
                 .memberId(memberId)
                 .memberRole(memberRole)
                 .build();
+
         workspaceMemberRepository.save(workspaceMember);
     }
 

@@ -28,6 +28,7 @@ public enum ErrorMessage {
      * 404 NOT_FOUND
      */
     ERR_NOT_FOUND_MEMBER,
+    ERR_NOT_FOUND_WORKSPACE,
 
     /**
      * 500 INTERNAL_SERVER_ERROR

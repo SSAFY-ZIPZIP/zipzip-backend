@@ -27,6 +27,9 @@ dependencies {
     // transactional
     implementation 'org.springframework:spring-tx'
 
+    // email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // Pageable
     implementation 'org.springframework.data:spring-data-commons'
 

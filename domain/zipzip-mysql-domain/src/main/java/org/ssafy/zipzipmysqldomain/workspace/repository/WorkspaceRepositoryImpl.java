@@ -1,5 +1,6 @@
 package org.ssafy.zipzipmysqldomain.workspace.repository;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
@@ -13,6 +14,11 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
     @Override
     public Workspace save(Workspace workspace) {
         return workspaceJpaRepository.save(workspace);
+    }
+
+    @Override
+    public Optional<Workspace> findById(Long workspaceId) {
+        return workspaceJpaRepository.findById(workspaceId);
     }
 
     @Override
