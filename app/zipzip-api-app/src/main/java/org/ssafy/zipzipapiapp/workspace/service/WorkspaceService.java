@@ -11,14 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.common.email.service.EmailService;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
+import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.WorkspaceIdAndEmailDto;
 import org.ssafy.zipzipapiapp.workspaceMember.service.WorkspaceMemberService;
 import org.ssafy.zipzipexceptioncommon.exception.NotFoundException;
-import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
-import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
-import org.ssafy.zipzipapiapp.workspaceMember.service.WorkspaceMemberService;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 import org.ssafy.zipzipmysqldomain.workspace.repository.WorkspaceRepository;
 import org.ssafy.zipzipmysqldomain.workspaceMember.enums.WorkspaceMemberRole;
@@ -71,6 +69,7 @@ public class WorkspaceService {
         findByIdOrThrow(workspaceId);
         Long memberId = memberSerivce.findMemberIdByEmailOrThrow(email);
         workspaceMemberService.save(workspaceId, memberId, WorkspaceMemberRole.MEMBER);
+    }
 
     @Transactional
     public void delete(Long workspaceId) {
