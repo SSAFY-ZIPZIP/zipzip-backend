@@ -2,6 +2,8 @@ package org.ssafy.zipzipapiapp.workspace.service;
 
 import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_NOT_FOUND_WORKSPACE;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.WorkspaceIdAndEmailDto;
 import org.ssafy.zipzipapiapp.workspaceMember.service.WorkspaceMemberService;
 import org.ssafy.zipzipexceptioncommon.exception.NotFoundException;
+import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
+import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
+import org.ssafy.zipzipapiapp.workspaceMember.service.WorkspaceMemberService;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 import org.ssafy.zipzipmysqldomain.workspace.repository.WorkspaceRepository;
 import org.ssafy.zipzipmysqldomain.workspaceMember.enums.WorkspaceMemberRole;
@@ -66,6 +71,24 @@ public class WorkspaceService {
         findByIdOrThrow(workspaceId);
         Long memberId = memberSerivce.findMemberIdByEmailOrThrow(email);
         workspaceMemberService.save(workspaceId, memberId, WorkspaceMemberRole.MEMBER);
+
+    @Transactional
+    public void delete(Long workspaceId) {
+        workspaceRepository.delete(workspaceId);
+        workspaceMemberService.deleteAllByWorkspaceId(workspaceId);
+
+    }
+
+    @Transactional
+    public void patch(PatchWorkspaceRequest patchWorkspaceRequest, Long workspaceId, Long memberId) {
+        List<Long> memberIdList = patchWorkspaceRequest.memberIdList().stream()
+                .filter(id -> !id.equals(memberId))
+                .collect(Collectors.toList());
+        String workspaceName = patchWorkspaceRequest.workspaceName();
+
+        workspaceRepository.update(workspaceName, workspaceId);
+        workspaceMemberService.deleteAllByWorkspaceIdExceptOwner(workspaceId);
+        workspaceMemberService.saveAll(memberIdList, workspaceId);
     }
 
     public Workspace findByIdOrThrow(Long workspaceId) {

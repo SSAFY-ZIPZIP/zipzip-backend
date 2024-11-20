@@ -21,5 +21,13 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
         return workspaceJpaRepository.findById(workspaceId);
     }
 
+    @Override
+    public void delete(Long workspaceId) {
+        workspaceJpaRepository.deleteById(workspaceId);
+    }
 
+    @Override
+    public void update(String workspaceNsme, Long workspaceId) {
+        workspaceJpaRepository.update(workspaceNsme, workspaceId);
+    }
 }

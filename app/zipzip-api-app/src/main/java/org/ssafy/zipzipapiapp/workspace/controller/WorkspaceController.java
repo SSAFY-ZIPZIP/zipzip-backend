@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
+import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
 import org.ssafy.zipzipapiapp.workspace.service.WorkspaceService;
@@ -37,12 +41,22 @@ public class WorkspaceController {
                 .build();
     }
 
-    @PostMapping("/{workspaceId}/invite")
+  
+    @PatchMapping("/me/{workspaceId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Void> sendInvite(@PathVariable("workspaceId") Long workspaceId,
-                                           @Valid @RequestBody SendWorkspaceInviteRequest sendWorkspaceInviteRequest) {
-        workspaceService.sendInvite(sendWorkspaceInviteRequest, workspaceId);
-
+    public ResponseEntity<Void> patch(@PathVariable("workspaceId") Long workspaceId,
+                                      @Valid @RequestBody PatchWorkspaceRequest patchWorkspaceRequest,
+                                      Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        workspaceService.patch(patchWorkspaceRequest, workspaceId, memberId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .build();
+    }
+  
+    @DeleteMapping("/me/{workspaceId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Void> delete(@PathVariable("workspaceId") Long workspaceId) {
+        workspaceService.delete(workspaceId);\
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }
@@ -51,9 +65,14 @@ public class WorkspaceController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> acceptInvite(@RequestParam("invite-token") String inviteToken) {
         workspaceService.acceptInvite(inviteToken);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .build();
     }
+  
+    @PostMapping("/{workspaceId}/invite")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Void> sendInvite(@PathVariable("workspaceId") Long workspaceId,
+                                           @Valid @RequestBody SendWorkspaceInviteRequest sendWorkspaceInviteRequest) {
+        workspaceService.sendInvite(sendWorkspaceInviteRequest, workspaceId);
+    }
+  
 }
 
