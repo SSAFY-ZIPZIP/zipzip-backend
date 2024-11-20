@@ -16,7 +16,7 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
 
     public GetMySubscriptionListResponse getMyList(Pageable pageable, Long memberId) {
-        Page<MySubscriptionDto> mySubscriptionDtoPage = subscriptionRepository.getMyList(pageable, memberId);
+        Page<MySubscriptionDto> mySubscriptionDtoPage = subscriptionRepository.findMyList(pageable, memberId);
         return new GetMySubscriptionListResponse(mySubscriptionDtoPage.getContent(),
                 new PageMetaDto(mySubscriptionDtoPage));
     }

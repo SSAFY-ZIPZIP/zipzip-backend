@@ -25,12 +25,9 @@ public class SubscriptionQueryDslRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public Page<MySubscriptionDto> getMyList(Pageable pageable, Long memberId) {
-        // 먼저 memberId로 category, region 조회
+    public Page<MySubscriptionDto> findMyList(Pageable pageable, Long memberId) {
         SubscriptionProfileDto subscriptionProfileDto = queryFactory
                 .select(new QSubscriptionProfileDto(
-                        subscriptionProfile.id,
-                        subscriptionProfile.memberId,
                         subscriptionProfile.memberRegion,
                         subscriptionProfile.memberCategory,
                         subscriptionProfile.isNotificationSubscription))
@@ -38,13 +35,13 @@ public class SubscriptionQueryDslRepository {
                 .where(subscriptionProfile.memberId.eq(memberId))
                 .fetchOne();
 
-        List<MySubscriptionDto> content = getMyListContent(pageable, subscriptionProfileDto, memberId);
-        JPAQuery<Long> countQuery = getMyListCount(subscriptionProfileDto);
+        List<MySubscriptionDto> content = findMysListContent(pageable, subscriptionProfileDto, memberId);
+        JPAQuery<Long> countQuery = findMyListCount(subscriptionProfileDto);
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private List<MySubscriptionDto> getMyListContent(Pageable pageable, SubscriptionProfileDto subscriptionProfileDto,
-                                                     Long memberId) {
+    private List<MySubscriptionDto> findMysListContent(Pageable pageable, SubscriptionProfileDto subscriptionProfileDto,
+                                                       Long memberId) {
         return queryFactory
                 .select(new QMySubscriptionDto(
                         subscription.id,
@@ -73,7 +70,7 @@ public class SubscriptionQueryDslRepository {
                 .fetch();
     }
 
-    private JPAQuery<Long> getMyListCount(SubscriptionProfileDto subscriptionProfileDto) {
+    private JPAQuery<Long> findMyListCount(SubscriptionProfileDto subscriptionProfileDto) {
         return queryFactory.select(subscription.count())
                 .from(subscription)
                 .where(

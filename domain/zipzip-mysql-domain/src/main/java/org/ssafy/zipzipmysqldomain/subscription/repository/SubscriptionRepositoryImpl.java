@@ -14,7 +14,7 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
     private final SubscriptionQueryDslRepository subscriptionQueryDslRepository;
 
     @Override
-    public Page<MySubscriptionDto> getMyList(Pageable pageable, Long memberId) {
-        return subscriptionQueryDslRepository.getMyList(pageable, memberId);
+    public Page<MySubscriptionDto> findMyList(Pageable pageable, Long memberId) {
+        return subscriptionQueryDslRepository.findMyList(pageable, memberId);
     }
 }
