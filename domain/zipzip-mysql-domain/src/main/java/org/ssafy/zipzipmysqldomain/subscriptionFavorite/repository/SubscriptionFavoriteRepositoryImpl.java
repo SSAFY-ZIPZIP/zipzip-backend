@@ -10,6 +10,7 @@ public class SubscriptionFavoriteRepositoryImpl implements SubscriptionFavoriteR
 
     private final SubscriptionFavoriteJpaRepository subscriptionFavoriteJpaRepository;
 
+    @Override
     public void save(SubscriptionFavorite subscriptionFavorite) {
         subscriptionFavoriteJpaRepository.save(subscriptionFavorite);
     }
