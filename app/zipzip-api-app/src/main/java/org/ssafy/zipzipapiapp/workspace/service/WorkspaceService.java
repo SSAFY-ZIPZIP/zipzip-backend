@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.common.email.service.EmailService;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
@@ -90,10 +91,30 @@ public class WorkspaceService {
         workspaceMemberService.saveAll(memberIdList, workspaceId);
     }
 
+    public List<GetWorkspaceMemberResponse> getWorkspaceMember(Long workspaceId) {
+        existByIdOrThrow(workspaceId);
+        return workspaceRepository.findWorkspaceMeberListByWorkspaceId(workspaceId).stream()
+                .map(getWorkspaceMemberQueryDto -> new GetWorkspaceMemberResponse(
+                        getWorkspaceMemberQueryDto.memberId(),
+                        getWorkspaceMemberQueryDto.memberNickname(),
+                        String.valueOf(getWorkspaceMemberQueryDto.memberRole())))
+                .collect(Collectors.toList());
+    }
+
     public Workspace findByIdOrThrow(Long workspaceId) {
         return workspaceRepository.findById(workspaceId)
                 .orElseThrow(() -> new NotFoundException(ERR_NOT_FOUND_WORKSPACE));
     }
+
+
+    public Boolean existByIdOrThrow(Long workspaceId) {
+        if (workspaceRepository.existsById(workspaceId)) {
+            return true;
+        }
+        throw new NotFoundException(ERR_NOT_FOUND_WORKSPACE);
+    }
+
+
 }
 
 

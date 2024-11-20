@@ -1,6 +1,7 @@
 package org.ssafy.zipzipapiapp.workspace.controller;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
@@ -74,5 +76,12 @@ public class WorkspaceController {
                 .build();
     }
 
+    @GetMapping("/{workspaceId}/members")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<GetWorkspaceMemberResponse>> getWorkspaceMember(
+            @PathVariable("workspaceId") Long workspaceId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(workspaceService.getWorkspaceMember(workspaceId));
+    }
 }
 

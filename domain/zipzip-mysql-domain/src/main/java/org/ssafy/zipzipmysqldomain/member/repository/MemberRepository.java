@@ -1,5 +1,6 @@
 package org.ssafy.zipzipmysqldomain.member.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.ssafy.zipzipmysqldomain.member.entity.Member;
 
@@ -18,6 +19,8 @@ public interface MemberRepository {
     Optional<Long> findMemberIdByEmail(String email);
 
     Optional<Member> findById(Long id);
+
+    List<Member> findAllById(List<Long> idList);
 
 }
 
