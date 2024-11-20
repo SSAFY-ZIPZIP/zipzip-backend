@@ -44,7 +44,7 @@ public class WorkspaceService {
         String sendInviteToken = jwtTokenProvider.generateSendInviteToken(workspaceId,
                 sendWorkspaceInviteRequest.email());
         // 초대 링크 생성
-        String inviteLink = "http://localhost:8080/v1/workspaces/accept-invite?invite-token=" + sendInviteToken;
+        String inviteLink = "http://158.247.195.119:8080/v1/workspaces/accept-invite?invite-token=" + sendInviteToken;
 
         emailService.sendInvite(sendWorkspaceInviteRequest.email(), inviteLink);
     }
