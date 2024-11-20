@@ -2,6 +2,7 @@ package org.ssafy.zipzipapiapp.member.service;
 
 import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_NOT_FOUND_MEMBER;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.ssafy.zipzipapiapp.member.dto.GetMemberProfileResponse;
@@ -30,4 +31,7 @@ public class MemberSerivce {
                 .orElseThrow(() -> new NotFoundException(ERR_NOT_FOUND_MEMBER));
     }
 
+    public List<Member> findAllById(List<Long> memberIdList) {
+        return memberRepository.findAllById(memberIdList);
+    }
 }

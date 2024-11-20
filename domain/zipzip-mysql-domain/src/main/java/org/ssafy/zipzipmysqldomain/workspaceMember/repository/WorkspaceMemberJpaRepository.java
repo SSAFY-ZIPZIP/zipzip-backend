@@ -14,5 +14,4 @@ public interface WorkspaceMemberJpaRepository extends CrudRepository<WorkspaceMe
     @Query("DELETE FROM WorkspaceMember wm WHERE wm.workspaceId = :workspaceId AND wm.memberRole != 'OWNER'")
     void deleteAllByWorkspaceIdExceptOwner(@Param("workspaceId") Long workspaceId);
 
-
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
 import org.ssafy.zipzipmysqldomain.workspaceMember.entity.WorkspaceMember;
 import org.ssafy.zipzipmysqldomain.workspaceMember.enums.WorkspaceMemberRole;
 import org.ssafy.zipzipmysqldomain.workspaceMember.repository.WorkspaceMemberRepository;
@@ -13,6 +14,7 @@ import org.ssafy.zipzipmysqldomain.workspaceMember.repository.WorkspaceMemberRep
 public class WorkspaceMemberService {
 
     private final WorkspaceMemberRepository workspaceMemberRepository;
+    private final MemberSerivce memberSerivce;
 
     public void save(Long workspaceId, Long memberId, WorkspaceMemberRole memberRole) {
         WorkspaceMember workspaceMember = WorkspaceMember.builder()
@@ -43,4 +45,5 @@ public class WorkspaceMemberService {
     public void deleteAllByWorkspaceId(Long workspaceId) {
         workspaceMemberRepository.deleteAllByWorkspaceId(workspaceId);
     }
+
 }

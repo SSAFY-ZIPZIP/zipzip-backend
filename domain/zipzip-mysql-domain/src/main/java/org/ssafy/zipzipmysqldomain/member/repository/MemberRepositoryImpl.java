@@ -1,6 +1,7 @@
 package org.ssafy.zipzipmysqldomain.member.repository;
 
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -49,6 +50,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Optional<Member> findById(Long id) {
         return memberJpaRepository.findById(id);
+    }
+
+    @Override
+    public List<Member> findAllById(List<Long> idList) {
+        return (List<Member>) memberJpaRepository.findAllById(idList);
     }
 
 }
