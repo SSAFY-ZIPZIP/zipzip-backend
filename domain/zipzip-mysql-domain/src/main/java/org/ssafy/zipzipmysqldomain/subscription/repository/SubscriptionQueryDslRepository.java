@@ -1,6 +1,7 @@
 package org.ssafy.zipzipmysqldomain.subscription.repository;
 
 import static org.ssafy.zipzipmysqldomain.subscription.entity.QSubscription.subscription;
+import static org.ssafy.zipzipmysqldomain.subscriptionAlarm.entity.QSubscriptionAlarm.subscriptionAlarm;
 import static org.ssafy.zipzipmysqldomain.subscriptionFavorite.entity.QSubscriptionFavorite.subscriptionFavorite;
 import static org.ssafy.zipzipmysqldomain.subscriptionProfile.entity.QSubscriptionProfile.subscriptionProfile;
 
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import org.ssafy.zipzipmysqldomain.subscription.dto.FavoriteSubscriptionDto;
 import org.ssafy.zipzipmysqldomain.subscription.dto.MySubscriptionDto;
+import org.ssafy.zipzipmysqldomain.subscription.dto.QFavoriteSubscriptionDto;
 import org.ssafy.zipzipmysqldomain.subscription.dto.QMySubscriptionDto;
 import org.ssafy.zipzipmysqldomain.subscriptionProfile.dto.QSubscriptionProfileDto;
 import org.ssafy.zipzipmysqldomain.subscriptionProfile.dto.SubscriptionProfileDto;
@@ -35,13 +38,19 @@ public class SubscriptionQueryDslRepository {
                 .where(subscriptionProfile.memberId.eq(memberId))
                 .fetchOne();
 
-        List<MySubscriptionDto> content = findMysListContent(pageable, subscriptionProfileDto, memberId);
+        List<MySubscriptionDto> content = findMyListContent(pageable, subscriptionProfileDto, memberId);
         JPAQuery<Long> countQuery = findMyListCount(subscriptionProfileDto);
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private List<MySubscriptionDto> findMysListContent(Pageable pageable, SubscriptionProfileDto subscriptionProfileDto,
-                                                       Long memberId) {
+    public Page<FavoriteSubscriptionDto> findMyFavoriteList(Pageable pageable, Long memberId) {
+        List<FavoriteSubscriptionDto> content = findMyFavoriteListContent(pageable, memberId);
+        JPAQuery<Long> countQuery = findMyFavoriteListCount(memberId);
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    private List<MySubscriptionDto> findMyListContent(Pageable pageable, SubscriptionProfileDto subscriptionProfileDto,
+                                                      Long memberId) {
         return queryFactory
                 .select(new QMySubscriptionDto(
                         subscription.id,
@@ -70,6 +79,33 @@ public class SubscriptionQueryDslRepository {
                 .fetch();
     }
 
+    private List<FavoriteSubscriptionDto> findMyFavoriteListContent(Pageable pageable, Long memberId) {
+        return queryFactory
+                .select(new QFavoriteSubscriptionDto(
+                        subscription.id,
+                        subscription.deadline,
+                        subscription.aptName,
+                        subscription.category,
+                        subscription.region,
+                        subscription.address,
+                        subscription.generalHouseHold,
+                        subscription.specialHouseHold,
+                        subscriptionAlarm.id.isNotNull(),
+                        subscription.url
+                ))
+                .from(subscription)
+                .innerJoin(subscriptionFavorite).on(subscriptionFavorite.subscriptionId.eq(subscription.id))
+                .leftJoin(subscriptionAlarm).on(
+                        subscriptionAlarm.subscriptionId.eq(subscription.id),
+                        subscriptionAlarm.memberId.eq(memberId)
+                )
+                .where(subscriptionFavorite.memberId.eq(memberId))
+                .orderBy(subscription.deadline.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
     private JPAQuery<Long> findMyListCount(SubscriptionProfileDto subscriptionProfileDto) {
         return queryFactory.select(subscription.count())
                 .from(subscription)
@@ -77,5 +113,12 @@ public class SubscriptionQueryDslRepository {
                         subscription.category.eq(subscriptionProfileDto.memberCategory()),
                         subscription.region.eq(subscriptionProfileDto.memberRegion())
                 );
+    }
+
+    private JPAQuery<Long> findMyFavoriteListCount(Long memberId) {
+        return queryFactory.select(subscription.count())
+                .from(subscription)
+                .innerJoin(subscriptionFavorite).on(subscriptionFavorite.subscriptionId.eq(subscription.id))
+                .where(subscriptionFavorite.memberId.eq(memberId));
     }
 }
