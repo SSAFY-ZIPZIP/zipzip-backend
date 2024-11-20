@@ -4,4 +4,6 @@ import org.ssafy.zipzipmysqldomain.subscriptionFavorite.entity.SubscriptionFavor
 
 public interface SubscriptionFavoriteRepository {
     void save(SubscriptionFavorite subscriptionFavorite);
+
+    void delete(Long memberId, Long subscriptionId);
 }

@@ -20,4 +20,9 @@ public class SubscriptionFavoriteService {
                 .build();
         subscriptionFavoriteRepository.save(newSubscriptionFavorite);
     }
+
+    @Transactional
+    public void delete(Long memberId, Long subscriptionId) {
+        subscriptionFavoriteRepository.delete(memberId, subscriptionId);
+    }
 }

@@ -14,4 +14,9 @@ public class SubscriptionFavoriteRepositoryImpl implements SubscriptionFavoriteR
     public void save(SubscriptionFavorite subscriptionFavorite) {
         subscriptionFavoriteJpaRepository.save(subscriptionFavorite);
     }
+
+    @Override
+    public void delete(Long memberId, Long subscriptionId) {
+        subscriptionFavoriteJpaRepository.delete(memberId, subscriptionId);
+    }
 }
