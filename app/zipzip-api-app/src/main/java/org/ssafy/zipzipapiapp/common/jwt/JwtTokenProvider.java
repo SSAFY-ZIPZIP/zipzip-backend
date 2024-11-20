@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.ssafy.zipzipapiapp.workspace.email.dto.WorkspaceIdAndEmailDto;
+import org.ssafy.zipzipapiapp.workspace.dto.WorkspaceIdAndEmailDto;
 import org.ssafy.zipzipmysqldomain.member.entity.Member;
 import org.ssafy.zipzipmysqldomain.member.repository.MemberRepository;
 

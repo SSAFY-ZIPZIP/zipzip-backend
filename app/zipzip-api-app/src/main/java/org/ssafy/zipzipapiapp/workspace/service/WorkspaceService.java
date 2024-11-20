@@ -3,14 +3,15 @@ package org.ssafy.zipzipapiapp.workspace.service;
 import static org.ssafy.zipzipexceptioncommon.exception.ErrorMessage.ERR_NOT_FOUND_WORKSPACE;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ssafy.zipzipapiapp.common.email.service.EmailService;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
-import org.ssafy.zipzipapiapp.workspace.email.dto.WorkspaceIdAndEmailDto;
-import org.ssafy.zipzipapiapp.workspace.email.service.EmailService;
+import org.ssafy.zipzipapiapp.workspace.dto.WorkspaceIdAndEmailDto;
 import org.ssafy.zipzipapiapp.workspaceMember.service.WorkspaceMemberService;
 import org.ssafy.zipzipexceptioncommon.exception.NotFoundException;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
@@ -26,6 +27,15 @@ public class WorkspaceService {
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
     private final WorkspaceMemberService workspaceMemberService;
+
+    @Value("${server.ip}")
+    private static String serverIp;
+
+    @Value("${server.port}")
+    private static String serverPort;
+
+    private static final String INVITE_LINK =
+            "http://" + serverIp + ":" + serverPort + "/v1/workspaces/accept-invite?invite-token=";
 
     @Transactional
     public void post(PostWorkspaceRequest postWorkspaceRequest, Long memberId) {
@@ -43,10 +53,8 @@ public class WorkspaceService {
         // 1. 이메일 전송 시, 전달할 토큰 만들기
         String sendInviteToken = jwtTokenProvider.generateSendInviteToken(workspaceId,
                 sendWorkspaceInviteRequest.email());
-        // 초대 링크 생성
-        String inviteLink = "http://158.247.195.119:8080/v1/workspaces/accept-invite?invite-token=" + sendInviteToken;
 
-        emailService.sendInvite(sendWorkspaceInviteRequest.email(), inviteLink);
+        emailService.sendInvite(sendWorkspaceInviteRequest.email(), INVITE_LINK + sendInviteToken);
     }
 
     @Transactional

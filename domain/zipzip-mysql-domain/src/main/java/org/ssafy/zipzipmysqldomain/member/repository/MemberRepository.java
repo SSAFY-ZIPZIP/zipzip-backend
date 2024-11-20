@@ -15,8 +15,6 @@ public interface MemberRepository {
 
     void updateRefreshToken(String refreshToken, Long id);
 
-    Member findByIdOrThrow(Long id);
-
     Optional<Long> findMemberIdByEmail(String email);
 
     Optional<Member> findById(Long id);

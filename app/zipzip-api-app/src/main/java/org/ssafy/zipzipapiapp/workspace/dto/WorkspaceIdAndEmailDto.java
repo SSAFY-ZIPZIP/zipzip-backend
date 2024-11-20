@@ -1,4 +1,4 @@
-package org.ssafy.zipzipapiapp.workspace.email.dto;
+package org.ssafy.zipzipapiapp.workspace.dto;
 
 public record WorkspaceIdAndEmailDto(
         Long workspaceId,

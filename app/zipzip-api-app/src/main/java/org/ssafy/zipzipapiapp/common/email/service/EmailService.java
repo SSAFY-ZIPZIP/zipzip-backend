@@ -1,4 +1,4 @@
-package org.ssafy.zipzipapiapp.workspace.email.service;
+package org.ssafy.zipzipapiapp.common.email.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
