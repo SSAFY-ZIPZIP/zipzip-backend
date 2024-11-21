@@ -4,6 +4,7 @@ package org.ssafy.zipzipmysqldomain.workspaceMember.repository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.ssafy.zipzipmysqldomain.workspace.dto.GetWorkspaceMemberQueryResponseDto;
 import org.ssafy.zipzipmysqldomain.workspaceMember.entity.WorkspaceMember;
 
 @Repository
@@ -31,6 +32,11 @@ public class WorkspaceMemberRepositoryImpl implements WorkspaceMemberRepository 
     public void deleteAllByWorkspaceIdExceptOwner(Long workspaceId) {
         workspaceMemberJpaRepository.deleteAllByWorkspaceIdExceptOwner(workspaceId);
 
+    }
+
+    @Override
+    public List<GetWorkspaceMemberQueryResponseDto> findWorkspaceMeberListByWorkspaceId(Long workspaceId) {
+        return workspaceMemberJpaRepository.findWorkspaceMemberListByWorkspaceId(workspaceId);
     }
 
 

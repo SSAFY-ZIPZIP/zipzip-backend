@@ -1,10 +1,8 @@
 package org.ssafy.zipzipmysqldomain.workspace.repository;
 
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.ssafy.zipzipmysqldomain.workspace.dto.GetWorkspaceMemberQueryDto;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 
 @Repository
@@ -38,8 +36,5 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
         return workspaceJpaRepository.existsById(id);
     }
 
-    @Override
-    public List<GetWorkspaceMemberQueryDto> findWorkspaceMeberListByWorkspaceId(Long workspaceId) {
-        return workspaceJpaRepository.findWorkspaceMemberListByWorkspaceId(workspaceId);
-    }
+
 }

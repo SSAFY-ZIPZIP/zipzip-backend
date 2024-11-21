@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
 import org.ssafy.zipzipmysqldomain.workspaceMember.entity.WorkspaceMember;
 import org.ssafy.zipzipmysqldomain.workspaceMember.enums.WorkspaceMemberRole;
 import org.ssafy.zipzipmysqldomain.workspaceMember.repository.WorkspaceMemberRepository;
@@ -42,6 +43,15 @@ public class WorkspaceMemberService {
 
     public void deleteAllByWorkspaceId(Long workspaceId) {
         workspaceMemberRepository.deleteAllByWorkspaceId(workspaceId);
+    }
+
+    public List<GetWorkspaceMemberResponse> getWorkspaceMemberListByWorkspaceId(Long workspaceId) {
+        return workspaceMemberRepository.findWorkspaceMeberListByWorkspaceId(workspaceId).stream()
+                .map(getWorkspaceMemberQueryDto -> new GetWorkspaceMemberResponse(
+                        getWorkspaceMemberQueryDto.memberId(),
+                        getWorkspaceMemberQueryDto.memberNickname(),
+                        getWorkspaceMemberQueryDto.memberRole()))
+                .collect(Collectors.toList());
     }
 
 }
