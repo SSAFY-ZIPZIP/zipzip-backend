@@ -21,10 +21,9 @@ public interface WorkspaceJpaRepository extends CrudRepository<Workspace, Long> 
 
     @Query("SELECT new org.ssafy.zipzipmysqldomain.workspace.dto.GetWorkspaceMemberQueryDto(" +
             "wm.memberId, m.nickname, wm.memberRole) " +
-            "FROM Workspace w " +
-            "JOIN WorkspaceMember wm ON w.id = wm.workspaceId " +
+            "FROM WorkspaceMember wm " +
             "JOIN Member m ON wm.memberId = m.id " +
-            "WHERE w.id = :workspaceId")
+            "WHERE wm.workspaceId = :workspaceId")
     List<GetWorkspaceMemberQueryDto> findWorkspaceMemberListByWorkspaceId(@Param("workspaceId") Long workspaceId);
-
+    
 }
