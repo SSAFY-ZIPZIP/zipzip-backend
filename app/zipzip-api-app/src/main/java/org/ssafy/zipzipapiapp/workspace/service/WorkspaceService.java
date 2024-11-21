@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.common.email.service.EmailService;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
@@ -100,6 +101,14 @@ public class WorkspaceService {
         return workspaceRepository.findById(workspaceId)
                 .orElseThrow(() -> new NotFoundException(ERR_NOT_FOUND_WORKSPACE));
     }
+
+    public List<GetWorkspaceResponse> getListByMemberId(Long memberId) {
+        return workspaceRepository.findAllByMemberId(memberId).stream()
+                .map(getWorkspaceQueryDto -> new GetWorkspaceResponse(getWorkspaceQueryDto.workspaceId(),
+                        getWorkspaceQueryDto.workspaceName()))
+                .collect(Collectors.toList());
+    }
+
 
 
     public Boolean existByIdOrThrow(Long workspaceId) {
