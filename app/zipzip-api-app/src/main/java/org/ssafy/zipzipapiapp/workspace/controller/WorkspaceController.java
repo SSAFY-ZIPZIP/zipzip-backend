@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
@@ -76,13 +77,22 @@ public class WorkspaceController {
                 .build();
     }
 
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<GetWorkspaceResponse>> getListByMemberId(Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        List<GetWorkspaceResponse> getWorkspaceResponseList = workspaceService.getListByMemberId(memberId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(getWorkspaceResponseList);
+    }
     @GetMapping("/{workspaceId}/members")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<GetWorkspaceMemberResponse>> getWorkspaceMemberListByWorkspaceId(
             @PathVariable("workspaceId") Long workspaceId) {
         List<GetWorkspaceMemberResponse> getWorkspaceMemberResponseList = workspaceService.getWorkspaceMemberListByWorkspaceId(
                 workspaceId);
-        
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getWorkspaceMemberResponseList);
     }
