@@ -1,6 +1,7 @@
 package org.ssafy.zipzipmysqldomain.workspaceMember.repository;
 
 import java.util.List;
+import org.ssafy.zipzipmysqldomain.workspace.dto.GetWorkspaceMemberQueryResponseDto;
 import org.ssafy.zipzipmysqldomain.workspaceMember.entity.WorkspaceMember;
 
 public interface WorkspaceMemberRepository {
@@ -11,5 +12,7 @@ public interface WorkspaceMemberRepository {
     void saveAll(List<WorkspaceMember> workspaceMemberList);
 
     void deleteAllByWorkspaceIdExceptOwner(Long workspaceMemberId);
+
+    List<GetWorkspaceMemberQueryResponseDto> findWorkspaceMeberListByWorkspaceId(Long workspaceId);
 
 }

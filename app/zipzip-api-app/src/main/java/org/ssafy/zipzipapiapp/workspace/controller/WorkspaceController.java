@@ -80,8 +80,11 @@ public class WorkspaceController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<GetWorkspaceMemberResponse>> getWorkspaceMemberListByWorkspaceId(
             @PathVariable("workspaceId") Long workspaceId) {
+        List<GetWorkspaceMemberResponse> getWorkspaceMemberResponseList = workspaceService.getWorkspaceMemberListByWorkspaceId(
+                workspaceId);
+        
         return ResponseEntity.status(HttpStatus.OK)
-                .body(workspaceService.getWorkspaceMemberListByWorkspaceId(workspaceId));
+                .body(getWorkspaceMemberResponseList);
     }
 }
 

@@ -93,12 +93,7 @@ public class WorkspaceService {
 
     public List<GetWorkspaceMemberResponse> getWorkspaceMemberListByWorkspaceId(Long workspaceId) {
         existByIdOrThrow(workspaceId);
-        return workspaceRepository.findWorkspaceMeberListByWorkspaceId(workspaceId).stream()
-                .map(getWorkspaceMemberQueryDto -> new GetWorkspaceMemberResponse(
-                        getWorkspaceMemberQueryDto.memberId(),
-                        getWorkspaceMemberQueryDto.memberNickname(),
-                        getWorkspaceMemberQueryDto.memberRole()))
-                .collect(Collectors.toList());
+        return workspaceMemberService.getWorkspaceMemberListByWorkspaceId(workspaceId);
     }
 
     public Workspace findByIdOrThrow(Long workspaceId) {
