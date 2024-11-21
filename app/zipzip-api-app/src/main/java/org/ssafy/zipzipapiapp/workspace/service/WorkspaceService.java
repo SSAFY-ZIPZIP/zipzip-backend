@@ -11,13 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.common.email.service.EmailService;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
-import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
+import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspacePropertyRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.SendWorkspaceInviteRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.WorkspaceIdAndEmailDto;
 import org.ssafy.zipzipapiapp.workspaceMember.service.WorkspaceMemberService;
+import org.ssafy.zipzipapiapp.workspacePropertyDeal.service.WorkspacePropertyDealService;
 import org.ssafy.zipzipexceptioncommon.exception.NotFoundException;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 import org.ssafy.zipzipmysqldomain.workspace.repository.WorkspaceRepository;
@@ -32,6 +34,7 @@ public class WorkspaceService {
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
     private final WorkspaceMemberService workspaceMemberService;
+    private final WorkspacePropertyDealService workspacePropertyDealService;
 
     @Value("${server.ip}")
     private static String serverIp;
@@ -110,12 +113,15 @@ public class WorkspaceService {
     }
 
 
-
     public Boolean existByIdOrThrow(Long workspaceId) {
         if (workspaceRepository.existsById(workspaceId)) {
             return true;
         }
         throw new NotFoundException(ERR_NOT_FOUND_WORKSPACE);
+    }
+
+    public void postWorkspacePropertyDeal(Long id, PostWorkspacePropertyRequest postWorkspacePropertyRequest) {
+        workspacePropertyDealService.postWorkspacePropertyDeal(id, postWorkspacePropertyRequest.propertyDealId());
     }
 
 
