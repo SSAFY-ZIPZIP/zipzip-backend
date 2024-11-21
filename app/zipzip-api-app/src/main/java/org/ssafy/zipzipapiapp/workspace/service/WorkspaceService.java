@@ -91,13 +91,13 @@ public class WorkspaceService {
         workspaceMemberService.saveAll(memberIdList, workspaceId);
     }
 
-    public List<GetWorkspaceMemberResponse> getWorkspaceMember(Long workspaceId) {
+    public List<GetWorkspaceMemberResponse> getWorkspaceMemberListByWorkspaceId(Long workspaceId) {
         existByIdOrThrow(workspaceId);
         return workspaceRepository.findWorkspaceMeberListByWorkspaceId(workspaceId).stream()
                 .map(getWorkspaceMemberQueryDto -> new GetWorkspaceMemberResponse(
                         getWorkspaceMemberQueryDto.memberId(),
                         getWorkspaceMemberQueryDto.memberNickname(),
-                        String.valueOf(getWorkspaceMemberQueryDto.memberRole())))
+                        getWorkspaceMemberQueryDto.memberRole()))
                 .collect(Collectors.toList());
     }
 

@@ -78,10 +78,10 @@ public class WorkspaceController {
 
     @GetMapping("/{workspaceId}/members")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<GetWorkspaceMemberResponse>> getWorkspaceMember(
+    public ResponseEntity<List<GetWorkspaceMemberResponse>> getWorkspaceMemberListByWorkspaceId(
             @PathVariable("workspaceId") Long workspaceId) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(workspaceService.getWorkspaceMember(workspaceId));
+                .body(workspaceService.getWorkspaceMemberListByWorkspaceId(workspaceId));
     }
 }
 
