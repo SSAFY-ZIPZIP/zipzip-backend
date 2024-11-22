@@ -20,6 +20,7 @@ public interface MemberJpaRepository extends CrudRepository<Member, Long> {
     @Query("UPDATE Member m SET m.refreshToken = :refreshToken WHERE m.id = :id")
     void updateRefreshToken(@Param("refreshToken") String refreshToken, @Param("id") Long id);
 
+    @Query("SELECT m.id FROM Member m WHERE m.email = :email")
     Optional<Long> findIdByEmail(String email);
 
 }
