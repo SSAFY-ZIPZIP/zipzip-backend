@@ -37,13 +37,10 @@ public class WorkspaceService {
     private final WorkspacePropertyDealService workspacePropertyDealService;
 
     @Value("${server.ip}")
-    private static String serverIp;
+    private String serverIp;
 
     @Value("${server.port}")
-    private static String serverPort;
-
-    private static final String INVITE_LINK =
-            "http://" + serverIp + ":" + serverPort + "/v1/workspaces/accept-invite?invite-token=";
+    private String serverPort;
 
     @Transactional
     public void post(PostWorkspaceRequest postWorkspaceRequest, Long memberId) {
@@ -62,7 +59,8 @@ public class WorkspaceService {
         String sendInviteToken = jwtTokenProvider.generateSendInviteToken(workspaceId,
                 sendWorkspaceInviteRequest.email());
 
-        emailService.sendInvite(sendWorkspaceInviteRequest.email(), INVITE_LINK + sendInviteToken);
+        String inviteLink = generateInviteLink(sendInviteToken);
+        emailService.sendInvite(sendWorkspaceInviteRequest.email(), inviteLink);
     }
 
     @Transactional
@@ -122,6 +120,10 @@ public class WorkspaceService {
 
     public void postWorkspacePropertyDeal(Long id, PostWorkspacePropertyRequest postWorkspacePropertyRequest) {
         workspacePropertyDealService.postWorkspacePropertyDeal(id, postWorkspacePropertyRequest.propertyDealId());
+    }
+
+    private String generateInviteLink(String token) {
+        return "http://" + serverIp + ":" + serverPort + "/v1/workspaces/accept-invite?invite-token=" + token;
     }
 
 
