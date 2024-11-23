@@ -1,14 +1,19 @@
 package org.ssafy.zipzipapiapp.subscription.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.ssafy.zipzipapiapp.common.dto.PageMetaDto;
 import org.ssafy.zipzipapiapp.subscription.dto.GetMySubscriptionListResponse;
+import org.ssafy.zipzipapiapp.subscription.dto.GetSearchSubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscriptionFavorite.dto.GetFavoriteSubscriptionListResponse;
-import org.ssafy.zipzipmysqldomain.subscription.dto.FavoriteSubscriptionDto;
-import org.ssafy.zipzipmysqldomain.subscription.dto.MySubscriptionDto;
+import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionFavoriteQueryResponseDto;
+import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionQueryResponseDto;
+import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionSearchQueryRequestDto;
+import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionCategory;
+import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionRegion;
 import org.ssafy.zipzipmysqldomain.subscription.repository.SubscriptionRepository;
 
 @Service
@@ -18,13 +23,33 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
 
     public GetMySubscriptionListResponse getMyList(Pageable pageable, Long memberId) {
-        Page<MySubscriptionDto> mySubscriptionDtoPage = subscriptionRepository.findMyList(pageable, memberId);
-        return new GetMySubscriptionListResponse(mySubscriptionDtoPage.getContent(),
-                new PageMetaDto(mySubscriptionDtoPage));
+        Page<SubscriptionQueryResponseDto> mySubscriptionListPage = subscriptionRepository.findMyList(pageable,
+                memberId);
+        return new GetMySubscriptionListResponse(mySubscriptionListPage.getContent(),
+                new PageMetaDto(mySubscriptionListPage));
+    }
+
+    public GetSearchSubscriptionListResponse getSearchList(Pageable pageable, String aptName, String category,
+                                                           String region, Long memberId) {
+        SubscriptionSearchQueryRequestDto subscriptionSearchQueryRequestDto = new SubscriptionSearchQueryRequestDto(
+                aptName,
+                // 쿼리 파라미터로 값이 들어오지 않을 수도 있으므로 (null일 수 있으므로) Optional로 처리
+                Optional.ofNullable(category)
+                        .map(SubscriptionCategory::findByDescription)
+                        .orElse(null),
+                Optional.ofNullable(region)
+                        .map(SubscriptionRegion::findByDescription)
+                        .orElse(null)
+        );
+        Page<SubscriptionQueryResponseDto> searchSubscriptionListPage = subscriptionRepository.findSearchList(pageable,
+                subscriptionSearchQueryRequestDto, memberId);
+        return new GetSearchSubscriptionListResponse(searchSubscriptionListPage.getContent(),
+                new PageMetaDto(searchSubscriptionListPage));
     }
 
     public GetFavoriteSubscriptionListResponse getMyFavoriteList(Pageable pageable, Long memberId) {
-        Page<FavoriteSubscriptionDto> favoriteSubscriptionDtoPage = subscriptionRepository.findMyFavoriteList(pageable,
+        Page<SubscriptionFavoriteQueryResponseDto> favoriteSubscriptionDtoPage = subscriptionRepository.findMyFavoriteList(
+                pageable,
                 memberId);
         return new GetFavoriteSubscriptionListResponse(favoriteSubscriptionDtoPage.getContent(),
                 new PageMetaDto(favoriteSubscriptionDtoPage));

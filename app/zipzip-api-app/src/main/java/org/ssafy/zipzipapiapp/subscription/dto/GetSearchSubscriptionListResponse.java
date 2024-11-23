@@ -4,8 +4,7 @@ import java.util.List;
 import org.ssafy.zipzipapiapp.common.dto.PageMetaDto;
 import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionQueryResponseDto;
 
-public record GetMySubscriptionListResponse(List<SubscriptionQueryResponseDto> content,
-                                            PageMetaDto pageMeta
+public record GetSearchSubscriptionListResponse(List<SubscriptionQueryResponseDto> content,
+                                                PageMetaDto pageMeta
 ) {
 }
-
