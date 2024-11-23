@@ -9,6 +9,11 @@ import org.ssafy.zipzipapiapp.common.dto.PageMetaDto;
 import org.ssafy.zipzipapiapp.subscription.dto.GetMySubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscription.dto.GetSearchSubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscriptionFavorite.dto.GetFavoriteSubscriptionListResponse;
+import org.ssafy.zipzipapiapp.subscriptionFavorite.service.SubscriptionFavoriteService;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PatchSubscriptionProfileRequest;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
+import org.ssafy.zipzipapiapp.subscriptionProfile.service.SubscriptionProfileService;
 import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionFavoriteQueryResponseDto;
 import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionQueryResponseDto;
 import org.ssafy.zipzipmysqldomain.subscription.dto.SubscriptionSearchQueryRequestDto;
@@ -21,6 +26,8 @@ import org.ssafy.zipzipmysqldomain.subscription.repository.SubscriptionRepositor
 public class SubscriptionService {
 
     private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionProfileService subscriptionProfileService;
+    private final SubscriptionFavoriteService subscriptionFavoriteService;
 
     public GetMySubscriptionListResponse getMyList(Pageable pageable, Long memberId) {
         Page<SubscriptionQueryResponseDto> mySubscriptionListPage = subscriptionRepository.findMyList(pageable,
@@ -53,5 +60,27 @@ public class SubscriptionService {
                 memberId);
         return new GetFavoriteSubscriptionListResponse(favoriteSubscriptionDtoPage.getContent(),
                 new PageMetaDto(favoriteSubscriptionDtoPage));
+    }
+
+    public void postProfile(PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+                            Long memberId) {
+        subscriptionProfileService.post(postSubscriptionProfileRequest, memberId);
+    }
+
+    public Optional<GetSubscriptionProfileResponse> getProfile(Long memberId) {
+        return subscriptionProfileService.get(memberId);
+    }
+
+    public void patchProfile(PatchSubscriptionProfileRequest patchSubscriptionProfileRequest,
+                             Long memberId) {
+        subscriptionProfileService.patch(patchSubscriptionProfileRequest, memberId);
+    }
+
+    public void postFavorite(Long memberId, Long subscriptionId) {
+        subscriptionFavoriteService.post(memberId, subscriptionId);
+    }
+
+    public void deleteFavorite(Long memberId, Long subscriptionId) {
+        subscriptionFavoriteService.delete(memberId, subscriptionId);
     }
 }
