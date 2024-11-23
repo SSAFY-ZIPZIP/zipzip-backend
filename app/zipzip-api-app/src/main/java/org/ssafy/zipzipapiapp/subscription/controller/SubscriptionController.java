@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
 import org.ssafy.zipzipapiapp.subscription.dto.GetMySubscriptionListResponse;
+import org.ssafy.zipzipapiapp.subscription.dto.GetSearchSubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscription.service.SubscriptionService;
 import org.ssafy.zipzipapiapp.subscriptionFavorite.dto.GetFavoriteSubscriptionListResponse;
 
@@ -25,7 +27,22 @@ public class SubscriptionController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GetMySubscriptionListResponse> getMyList(Authentication authentication, Pageable pageable) {
         Long memberId = MemberUtil.getUserId(authentication);
-        return ResponseEntity.status(HttpStatus.OK).body(subscriptionService.getMyList(pageable, memberId));
+        GetMySubscriptionListResponse getMySubscriptionListResponse = subscriptionService.getMyList(pageable, memberId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(getMySubscriptionListResponse);
+    }
+
+    @GetMapping("/list")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GetSearchSubscriptionListResponse> getSearchList(Authentication authentication,
+                                                                           @RequestParam(value = "apt-name", required = false) String aptName,
+                                                                           @RequestParam(value = "category", required = false) String category,
+                                                                           @RequestParam(value = "region", required = false) String region,
+                                                                           Pageable pageable) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        GetSearchSubscriptionListResponse getSearchSubscriptionListResponse = subscriptionService.getSearchList(
+                pageable, aptName, category, region, memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(getSearchSubscriptionListResponse);
     }
 
     @GetMapping("/me/favorite/list")
