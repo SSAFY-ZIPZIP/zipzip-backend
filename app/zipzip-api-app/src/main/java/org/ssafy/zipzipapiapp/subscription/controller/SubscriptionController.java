@@ -1,11 +1,18 @@
 package org.ssafy.zipzipapiapp.subscription.controller;
 
+import jakarta.validation.Valid;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,6 +22,9 @@ import org.ssafy.zipzipapiapp.subscription.dto.GetMySubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscription.dto.GetSearchSubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscription.service.SubscriptionService;
 import org.ssafy.zipzipapiapp.subscriptionFavorite.dto.GetFavoriteSubscriptionListResponse;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PatchSubscriptionProfileRequest;
+import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,5 +61,52 @@ public class SubscriptionController {
                                                                        Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
         return ResponseEntity.status(HttpStatus.OK).body(subscriptionService.getMyFavoriteList(pageable, memberId));
+    }
+
+    @PostMapping("/profile/me")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> postProfile(
+            @Valid @RequestBody PostSubscriptionProfileRequest postSubscriptionProfileRequest,
+            Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        subscriptionService.postProfile(postSubscriptionProfileRequest, memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/profile/me")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GetSubscriptionProfileResponse> getProfile(Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        Optional<GetSubscriptionProfileResponse> getSubscriptionProfileResponse = subscriptionService.getProfile(
+                memberId);
+        if (getSubscriptionProfileResponse.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(getSubscriptionProfileResponse.get());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/profile/me")
+    public ResponseEntity<Void> patchProfile(
+            @Valid @RequestBody PatchSubscriptionProfileRequest patchSubscriptionProfileRequest,
+            Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        subscriptionService.patchProfile(patchSubscriptionProfileRequest, memberId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("{subscriptionId}/me/favorite")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> postFavorite(@PathVariable Long subscriptionId, Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        subscriptionService.postFavorite(memberId, subscriptionId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("{subscriptionId}/me/favorite")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Void> deleteFavorite(@PathVariable Long subscriptionId, Authentication authentication) {
+        Long memberId = MemberUtil.getUserId(authentication);
+        subscriptionService.deleteFavorite(memberId, subscriptionId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
