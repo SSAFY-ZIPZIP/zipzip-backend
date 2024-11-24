@@ -8,14 +8,20 @@ import org.ssafy.zipzipmysqldomain.subscription.enums.SubscriptionRegion;
 public record SubscriptionQueryResponseDto(Long subscriptionId,
                                            LocalDateTime deadline,
                                            String aptName,
-                                           SubscriptionCategory category,
-                                           SubscriptionRegion region,
+                                           String category,
+                                           String region,
                                            String address,
                                            Integer generalHouseHold,
                                            Integer specialHouseHold,
                                            Boolean isFavorite,
                                            String url) {
+
     @QueryProjection
-    public SubscriptionQueryResponseDto {
+    public SubscriptionQueryResponseDto(Long subscriptionId, LocalDateTime deadline, String aptName,
+                                        SubscriptionCategory category, SubscriptionRegion region,
+                                        String address, int generalHouseHold, int specialHouseHold,
+                                        boolean isFavorite, String url) {
+        this(subscriptionId, deadline, aptName, category.getDescription(), region.getDescription(), address,
+                generalHouseHold, specialHouseHold, isFavorite, url);
     }
 }
