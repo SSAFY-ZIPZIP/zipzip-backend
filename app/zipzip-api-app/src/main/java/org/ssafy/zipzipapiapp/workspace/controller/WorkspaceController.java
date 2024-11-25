@@ -3,6 +3,7 @@ package org.ssafy.zipzipapiapp.workspace.controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspacePropertyDealListResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspacePropertyRequest;
@@ -107,6 +109,17 @@ public class WorkspaceController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .build();
+    }
+
+    @GetMapping("/{workspaceId}/properties")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GetWorkspacePropertyDealListResponse> getPropertyDealListByWorkspaceId(
+            @PathVariable("workspaceId") Long id, Pageable pageable) {
+
+        workspaceService.getPropertyDealListByWorkspaceId(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(getWorkspacePropertyDealListResponse);
     }
 }
 

@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssafy.zipzipapiapp.common.email.service.EmailService;
 import org.ssafy.zipzipapiapp.common.jwt.JwtTokenProvider;
 import org.ssafy.zipzipapiapp.member.service.MemberSerivce;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceMemberResponse;
+import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspacePropertyDealListResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.GetWorkspaceResponse;
 import org.ssafy.zipzipapiapp.workspace.dto.PatchWorkspaceRequest;
 import org.ssafy.zipzipapiapp.workspace.dto.PostWorkspacePropertyRequest;
@@ -127,6 +129,10 @@ public class WorkspaceService {
     }
 
 
+    public GetWorkspacePropertyDealListResponse getPropertyDealListByWorkspaceId(Long id, Pageable pageable) {
+        // 리턴값 필요
+        workspacePropertyDealService.getPropertyDealListByWorkspaceId(id, pageable);
+    }
 }
 
 
