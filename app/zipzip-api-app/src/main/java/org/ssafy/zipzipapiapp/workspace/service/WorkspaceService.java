@@ -131,7 +131,7 @@ public class WorkspaceService {
 
     public GetWorkspacePropertyDealListResponse getPropertyDealListByWorkspaceId(Long id, Pageable pageable) {
         // 리턴값 필요
-        workspacePropertyDealService.getPropertyDealListByWorkspaceId(id, pageable);
+        return workspacePropertyDealService.getPropertyDealListByWorkspaceId(id, pageable);
     }
 }
 

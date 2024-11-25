@@ -2,7 +2,6 @@ package org.ssafy.zipzipmysqldomain.propertyDeal.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public record PropertyDealQueryResponseDto(
         Long propertyInfoId,
@@ -14,7 +13,7 @@ public record PropertyDealQueryResponseDto(
         String sidoName,
         String gugunName,
         String dongName,
-        LocalDateTime dealDate,
+        String dealDate,
         BigDecimal aptSize,
         String aptName
 ) {
