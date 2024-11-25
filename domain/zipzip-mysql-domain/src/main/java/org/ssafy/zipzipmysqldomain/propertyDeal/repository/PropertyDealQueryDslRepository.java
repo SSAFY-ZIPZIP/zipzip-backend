@@ -68,7 +68,6 @@ public class PropertyDealQueryDslRepository {
                         gugunEq(propertyDealSearchQueryRequestDto.gugun()),
                         dongEq(propertyDealSearchQueryRequestDto.dong())
                 )
-                .orderBy(propertyDeal.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
