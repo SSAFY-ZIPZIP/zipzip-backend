@@ -116,7 +116,8 @@ public class WorkspaceController {
     public ResponseEntity<GetWorkspacePropertyDealListResponse> getPropertyDealListByWorkspaceId(
             @PathVariable("workspaceId") Long id, Pageable pageable) {
 
-        workspaceService.getPropertyDealListByWorkspaceId(id);
+        GetWorkspacePropertyDealListResponse getWorkspacePropertyDealListResponse = workspaceService.getPropertyDealListByWorkspaceId(
+                id, pageable);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getWorkspacePropertyDealListResponse);

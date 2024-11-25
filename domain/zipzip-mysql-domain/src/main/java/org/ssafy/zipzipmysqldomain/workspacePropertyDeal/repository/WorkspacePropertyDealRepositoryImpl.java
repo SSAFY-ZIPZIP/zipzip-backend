@@ -22,6 +22,6 @@ public class WorkspacePropertyDealRepositoryImpl implements WorkspacePropertyDea
 
     @Override
     public Page<PropertyDealQueryResponseDto> findPropertyDealListByWorkspaceId(Long workspaceId, Pageable pageable) {
-        workspacePropertyDealQueryDslRepository.findPropertyDealListByWorkspaceId(workspaceId, pageable);
+        return workspacePropertyDealQueryDslRepository.findPropertyDealListByWorkspaceId(workspaceId, pageable);
     }
 }
