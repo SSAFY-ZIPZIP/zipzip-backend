@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.ssafy.zipzipapiapp.common.aop.Timer;
 import org.ssafy.zipzipapiapp.propertyDeal.dto.GetPropertyNameListResponse;
 import org.ssafy.zipzipapiapp.propertyDeal.dto.GetSearchPropertyDealListByLocationResponse;
 import org.ssafy.zipzipapiapp.propertyDeal.service.PropertyDealService;
@@ -31,7 +32,8 @@ public class PropertyDealController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getPropertyNameListResponse);
     }
-
+    
+    @Timer
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GetSearchPropertyDealListByLocationResponse> getSearchList(Authentication authentication,
