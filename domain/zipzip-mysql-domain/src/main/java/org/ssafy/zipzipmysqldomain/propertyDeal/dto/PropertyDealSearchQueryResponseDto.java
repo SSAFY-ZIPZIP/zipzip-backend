@@ -2,7 +2,6 @@ package org.ssafy.zipzipmysqldomain.propertyDeal.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public record PropertyDealSearchQueryResponseDto(
         Long propertyInfoId, // 부동산 정보 ID
@@ -14,7 +13,7 @@ public record PropertyDealSearchQueryResponseDto(
         String sidoName,        // 아파트 주소 - 시도
         String gugunName,       // 아파트 주소 - 구군
         String dongName,        // 아파트 주소 - 동
-        LocalDateTime dealDate, // 계약일
+        String dealDate, // 계약일
         BigDecimal aptSize,         // 전용면적 (Double로 변경)
         String aptName          // 아파트 이름
 ) {
