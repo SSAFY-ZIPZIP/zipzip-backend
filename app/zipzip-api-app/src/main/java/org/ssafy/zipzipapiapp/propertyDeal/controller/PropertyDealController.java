@@ -32,7 +32,7 @@ public class PropertyDealController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getPropertyNameListResponse);
     }
-    
+
     @Timer
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)

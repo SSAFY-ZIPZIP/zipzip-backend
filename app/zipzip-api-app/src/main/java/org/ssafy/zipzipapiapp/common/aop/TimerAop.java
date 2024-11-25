@@ -16,13 +16,18 @@ public class TimerAop {
     }
 
     @Around("enableTimer()")
-    public void around(ProceedingJoinPoint joinPoint) throws Throwable { //메서드 실행시 걸린시간 측정
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        Object result = joinPoint.proceed(); //메서드가 실행되는 부분
+        // 메서드 실행 및 결과 저장
+        Object result = joinPoint.proceed();
 
         stopWatch.stop();
-        System.out.println("total time : " + stopWatch.getTotalTimeSeconds());
+        System.out.println("total time : " + stopWatch.getTotalTimeSeconds() + " seconds");
+
+        // 원래 메서드의 결과 반환
+        return result;
     }
+
 }
