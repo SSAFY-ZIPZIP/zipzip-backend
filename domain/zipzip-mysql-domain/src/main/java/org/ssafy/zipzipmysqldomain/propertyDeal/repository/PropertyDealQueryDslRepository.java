@@ -5,6 +5,7 @@ import static org.ssafy.zipzipmysqldomain.propertyDeal.entity.QPropertyDeal.prop
 import static org.ssafy.zipzipmysqldomain.propertyInfo.entity.QPropertyInfo.propertyInfo;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -46,13 +47,22 @@ public class PropertyDealQueryDslRepository {
                         dongCode1.sidoName,
                         dongCode1.gugunName,
                         dongCode1.dongName,
-                        propertyDeal.createdAt,
+                        Expressions.stringTemplate(
+                                "CONCAT({0}, '-', LPAD(CONCAT({1}), 2, '0'), '-', LPAD(CONCAT({2}), 2, '0'))",
+                                propertyDeal.dealYear,
+                                propertyDeal.dealMonth,
+                                propertyDeal.dealDay
+                        ),
                         propertyDeal.excluUseAr,
                         propertyInfo.aptNm
                 ))
                 .from(propertyDeal)
                 .join(propertyInfo).on(propertyDeal.aptSeq.eq(propertyInfo.aptSeq))
-                .join(dongCode1).on(dongCode1.dongCode.eq(propertyInfo.umdCd))
+                .join(dongCode1)
+                .on(dongCode1.dongCode.eq(
+                        Expressions.stringTemplate("CONCAT({0}, {1})", propertyInfo.sggCd, propertyInfo.umdCd)
+                ))
+
                 .where(
                         sidoEq(propertyDealSearchQueryRequestDto.sido()),
                         gugunEq(propertyDealSearchQueryRequestDto.gugun()),
@@ -69,7 +79,10 @@ public class PropertyDealQueryDslRepository {
                 .select(propertyDeal.count())
                 .from(propertyDeal)
                 .join(propertyInfo).on(propertyDeal.aptSeq.eq(propertyInfo.aptSeq))
-                .join(dongCode1).on(dongCode1.dongCode.eq(propertyInfo.umdCd))
+                .join(dongCode1)
+                .on(dongCode1.dongCode.eq(
+                        Expressions.stringTemplate("CONCAT({0}, {1})", propertyInfo.sggCd, propertyInfo.umdCd)
+                ))
                 .where(
                         sidoEq(propertyDealSearchQueryRequestDto.sido()),
                         gugunEq(propertyDealSearchQueryRequestDto.gugun()),
