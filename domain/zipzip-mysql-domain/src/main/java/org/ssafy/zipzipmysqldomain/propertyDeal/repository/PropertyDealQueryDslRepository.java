@@ -54,7 +54,8 @@ public class PropertyDealQueryDslRepository {
                                 propertyDeal.dealDay
                         ),
                         propertyDeal.excluUseAr,
-                        propertyInfo.aptNm
+                        propertyInfo.aptNm,
+                        propertyInfo.aptSeq
                 ))
                 .from(propertyDeal)
                 .join(propertyInfo).on(propertyDeal.aptSeq.eq(propertyInfo.aptSeq))
