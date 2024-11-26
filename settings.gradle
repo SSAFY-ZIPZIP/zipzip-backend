@@ -11,6 +11,9 @@ project(':zipzip-redis-domain').projectDir = file('domain/zipzip-redis-domain')
 include 'zipzip-kakao-client'
 project(':zipzip-kakao-client').projectDir = file('client/zipzip-kakao-client')
 
+include 'zipzip-gpt-client'
+project(':zipzip-gpt-client').projectDir = file('client/zipzip-gpt-client')
+
 include 'zipzip-exception-common'
 project(':zipzip-exception-common').projectDir = file('common/zipzip-exception-common')
 

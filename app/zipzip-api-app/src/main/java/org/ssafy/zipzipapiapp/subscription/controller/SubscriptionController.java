@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.ssafy.zipzipapiapp.common.util.MemberUtil;
 import org.ssafy.zipzipapiapp.subscription.dto.GetMySubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscription.dto.GetSearchSubscriptionListResponse;
+import org.ssafy.zipzipapiapp.subscription.dto.GetSubscriptionChatbotRequest;
+import org.ssafy.zipzipapiapp.subscription.dto.GetSubscriptionChatbotResponse;
 import org.ssafy.zipzipapiapp.subscription.service.SubscriptionService;
 import org.ssafy.zipzipapiapp.subscriptionFavorite.dto.GetFavoriteSubscriptionListResponse;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.GetSubscriptionProfileResponse;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PatchSubscriptionProfileRequest;
 import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileRequest;
+import org.ssafy.zipzipgptclient.service.ChatGPTService;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ import org.ssafy.zipzipapiapp.subscriptionProfile.dto.PostSubscriptionProfileReq
 public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
+    private final ChatGPTService chatGPTService;
 
     @GetMapping("/me/list")
     @ResponseStatus(HttpStatus.OK)
@@ -108,5 +112,14 @@ public class SubscriptionController {
         Long memberId = MemberUtil.getUserId(authentication);
         subscriptionService.deleteFavorite(memberId, subscriptionId);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/chat")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GetSubscriptionChatbotResponse> sendChatbotMessage(
+            @RequestBody GetSubscriptionChatbotRequest getSubscriptionChatbotRequest) {
+        GetSubscriptionChatbotResponse getSubscriptionChatbotResponse = new GetSubscriptionChatbotResponse(
+                chatGPTService.chatWithGPT(getSubscriptionChatbotRequest.userMessage()));
+        return ResponseEntity.status(HttpStatus.OK).body(getSubscriptionChatbotResponse);
     }
 }
