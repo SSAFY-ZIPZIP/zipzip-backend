@@ -26,6 +26,7 @@ import org.ssafy.zipzipexceptioncommon.exception.NotFoundException;
 import org.ssafy.zipzipmysqldomain.workspace.entity.Workspace;
 import org.ssafy.zipzipmysqldomain.workspace.repository.WorkspaceRepository;
 import org.ssafy.zipzipmysqldomain.workspaceMember.enums.WorkspaceMemberRole;
+import org.ssafy.zipzipmysqldomain.workspaceMybatis.mapper.WorkspaceMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class WorkspaceService {
     private final JwtTokenProvider jwtTokenProvider;
     private final WorkspaceMemberService workspaceMemberService;
     private final WorkspacePropertyDealService workspacePropertyDealService;
+    private final WorkspaceMapper workspaceMapper;
 
     @Value("${server.ip}")
     private String serverIp;
@@ -112,6 +114,14 @@ public class WorkspaceService {
                 .collect(Collectors.toList());
     }
 
+    // mybatis로 작성한 조회 쿼리
+    public List<GetWorkspaceResponse> getListByMemberIdWithMyBatis(Long memberId) {
+        return workspaceMapper.findAllByMemberIdWithMyBatis(memberId).stream()
+                .map(getWorkspaceQueryDto -> new GetWorkspaceResponse(getWorkspaceQueryDto.workspaceId(),
+                        getWorkspaceQueryDto.workspaceName()))
+                .collect(Collectors.toList());
+    }
+
 
     public Boolean existByIdOrThrow(Long workspaceId) {
         if (workspaceRepository.existsById(workspaceId)) {
@@ -130,9 +140,10 @@ public class WorkspaceService {
 
 
     public GetWorkspacePropertyDealListResponse getPropertyDealListByWorkspaceId(Long id, Pageable pageable) {
-        // 리턴값 필요
         return workspacePropertyDealService.getPropertyDealListByWorkspaceId(id, pageable);
     }
+
+
 }
 
 

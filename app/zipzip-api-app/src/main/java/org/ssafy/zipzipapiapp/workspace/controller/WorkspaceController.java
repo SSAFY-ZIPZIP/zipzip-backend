@@ -84,7 +84,7 @@ public class WorkspaceController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<GetWorkspaceResponse>> getListByMemberId(Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
-        List<GetWorkspaceResponse> getWorkspaceResponseList = workspaceService.getListByMemberId(memberId);
+        List<GetWorkspaceResponse> getWorkspaceResponseList = workspaceService.getListByMemberIdWithMyBatis(memberId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getWorkspaceResponseList);
