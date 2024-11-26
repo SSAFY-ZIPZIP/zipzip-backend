@@ -15,7 +15,8 @@ public record PropertyDealSearchQueryResponseDto(
         String dongName,        // 아파트 주소 - 동
         String dealDate, // 계약일
         BigDecimal aptSize,         // 전용면적 (Double로 변경)
-        String aptName          // 아파트 이름
+        String aptName,      // 아파트 이름
+        String aptSeq
 ) {
     @QueryProjection
     public PropertyDealSearchQueryResponseDto {
