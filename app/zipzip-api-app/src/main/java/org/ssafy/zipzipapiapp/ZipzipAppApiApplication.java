@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.ssafy.zipzipapiapp", "org.ssafy.zipzipkakaoclient", "org.ssafy.zipzipmysqldomain"})
+@ComponentScan(basePackages = {"org.ssafy.zipzipapiapp", "org.ssafy.zipzipkakaoclient", "org.ssafy.zipzipmysqldomain",
+        "org.ssafy.zipzipmybatisdomain"})
 public class ZipzipAppApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZipzipAppApiApplication.class, args);

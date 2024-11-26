@@ -14,3 +14,4 @@ project(':zipzip-kakao-client').projectDir = file('client/zipzip-kakao-client')
 include 'zipzip-exception-common'
 project(':zipzip-exception-common').projectDir = file('common/zipzip-exception-common')
 
+

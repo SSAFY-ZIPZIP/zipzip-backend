@@ -1,0 +1,31 @@
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+
+<!--<mapper namespace="org.ssafy.zipzipmysqldomain.workspace.mapper.WorkspaceMapper">-->
+
+<!--    &lt;!&ndash;    <resultMap id="WorkspaceQueryDtoMap" type="org.ssafy.zipzipmysqldomain.workspace.dto.GetWorkspaceQueryDto">&ndash;&gt;-->
+<!--    &lt;!&ndash;        <result property="workspaceId" column="id"/>&ndash;&gt;-->
+<!--    &lt;!&ndash;        <result property="workspaceName" column="name"/>&ndash;&gt;-->
+<!--    &lt;!&ndash;    </resultMap>&ndash;&gt;-->
+
+<!--    &lt;!&ndash;    <select id="findById" resultType="org.ssafy.zipzipmysqldomain.workspace.entity.Workspace">&ndash;&gt;-->
+<!--    &lt;!&ndash;        SELECT *&ndash;&gt;-->
+<!--    &lt;!&ndash;        FROM workspace&ndash;&gt;-->
+<!--    &lt;!&ndash;        WHERE id = #{id}&ndash;&gt;-->
+<!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+<!--    &lt;!&ndash;    <update id="update">&ndash;&gt;-->
+<!--    &lt;!&ndash;        UPDATE workspace&ndash;&gt;-->
+<!--    &lt;!&ndash;        SET name = #{workspaceName}&ndash;&gt;-->
+<!--    &lt;!&ndash;        WHERE id = #{workspaceId}&ndash;&gt;-->
+<!--    &lt;!&ndash;    </update>&ndash;&gt;-->
+
+<!--    <select id="findAllByMemberIdWithMyBatis" resultMap="WorkspaceQueryDtoMap">-->
+<!--        SELECT w.id, w.name-->
+<!--        FROM workspace w-->
+<!--                 JOIN workspace_member wm ON w.id = wm.workspace_id-->
+<!--        WHERE wm.member_id = #{memberId}-->
+<!--    </select>-->
+
+<!--</mapper>-->
