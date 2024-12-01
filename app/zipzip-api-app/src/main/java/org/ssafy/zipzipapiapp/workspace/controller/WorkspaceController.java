@@ -84,7 +84,7 @@ public class WorkspaceController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<GetWorkspaceResponse>> getListByMemberId(Authentication authentication) {
         Long memberId = MemberUtil.getUserId(authentication);
-        List<GetWorkspaceResponse> getWorkspaceResponseList = workspaceService.getListByMemberIdWithMyBatis(memberId);
+        List<GetWorkspaceResponse> getWorkspaceResponseList = workspaceService.getListByMemberId(memberId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getWorkspaceResponseList);
@@ -111,8 +111,8 @@ public class WorkspaceController {
                 .build();
     }
 
-    @GetMapping("/{workspaceId}/properties")
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{workspaceId}/properties")
     public ResponseEntity<GetWorkspacePropertyDealListResponse> getPropertyDealListByWorkspaceId(
             @PathVariable("workspaceId") Long id, Pageable pageable) {
 
